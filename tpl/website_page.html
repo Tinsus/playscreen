@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="{function="Loca::getLanguage()"}">
+	<head>
+		{loop="$meta"}
+		<meta {$value}/>
+		{/loop}
+		<title>{$title}</title>
+		<link rel="icon" type="image/svg" href="{$home}img/logo/logo.svg"/>
+		{loop="$css"}
+		<link rel="stylesheet" href="{$home}css/{$value[0]}{if='$value[1] and !Page::IsLocal()'}.min{/if}.css">
+		{/loop}
+		{loop="$scripts"}
+		<script type="text/javascript" src="{$home}scripts/{$value[0]}{if='$value[1] and !Page::IsLocal()'}.min{/if}.js"></script>
+		{/loop}
+		<script type="text/javascript">
+			function GetDomain() {
+				return "{function='Page::GetDomain()'}";
+			}
+
+			function GetDomainNoSuffix() {
+				return "{function='Page::GetDomain(false,true)'}";
+			}
+
+			function GetLanguage() {
+				return '{function="Loca::GetLanguage()"}';
+			}
+		</script>
+	</head>
+	<body class="w3-theme-l5">
+		<header class="w3-top" id="header" style="z-index: 10;">
+			{$header}
+		</header>
+		<div id="spacer" style="height: 40.75px;">
+		</div>
+		<div id="scroll" class="w3-bottom w3-left w3-margin w3-opacity-max" style="max-width: 80px; display: none;">
+			<i class="w3-button w3-hover-none w3-transparent fa fa-chevron-circle-up fa-3x w3-left" onclick="backToTop()"></i>
+		</div>
+		<div id="pagecontent">
+			{$content}
+		</div>
+		<footer id="footer">
+			{$footer}
+		</footer>
+		<script type="text/javascript">
+			$("#scriptchecker").hide();
+
+			setTimeout(resizeSpacer, 100);
+		</script>
+	</body>
+</html>

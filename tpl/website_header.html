@@ -1,0 +1,61 @@
+<div class="w3-bar w3-theme-d2 w3-card-4">
+	<a href="{$home}" class="w3-bar-item link w3-hover-none w3-hover-text-theme-l5">
+		<img src="{$home}img/logo/logo.svg" alt="pagelogo" style="height: 24px;">
+		<b>
+			{function="Loca::Get('GLOBAL_PAGE_TITLE')"}
+		</b>
+	</a>
+	<div class="w3-bar-item w3-hide-medium w3-hide-large w3-button w3-right link">
+		<a class="w3-btn w3-hover-theme-l5 w3-theme-d1 w3-card-2 padding-4 fa fa-bars" href="javascript:void(0)" onclick="handleSmallNav()"></a>
+	</div>
+	{loop="$data"}
+	<div class="w3-bar-item w3-hide-small{if='isset($value['icon'])'} w3-tooltip{/if}{if='isset($value['tone'])'} w3-theme-{$value['tone']}{/if}">
+		<a {if="isset($value['link'])"}href="{$home}{$value['link']}"{elseif="isset($value['func'])"}href="javascript:void(0)" onclick="{$value['func']}"{/if} class="w3-hover-none w3-hover-text-theme-l5 link">
+			{if="isset($value['icon'])"}
+			<span class="w3-large fa fa-{$value['icon']}"></span>
+			<span class="w3-hide-medium">
+				{function="Loca::Get($value['text'])"}
+			</span>
+			<span class="w3-hide-large w3-text">
+				{function="Loca::Get($value['text'])"}
+			</span>
+			{else}
+			{function="Loca::Get($value['text'])"}
+			{/if}
+		</a>
+	</div>
+	{/loop}
+</div>
+<div id="smallNav" class="w3-hide w3-hide-medium w3-hide-large w3-bar w3-left-align w3-theme-d2">
+	{loop="$data"}
+	<div{if="isset($value['tone'])"} class="w3-theme-{$value['tone']}"{/if}>
+		<a href="{if="isset($value['link'])"}{$home}{$value['link']}{elseif="isset($value['func'])"}javascript:{$value['func']}{/if}" class="link padding-small">
+			{if="isset($value['icon'])"}
+			<span class="fa fa-{$value['icon']}"></span>
+			{/if}
+			{function="Loca::Get($value['text'])"}
+		</a>
+	</div>
+	{/loop}
+</div>
+<div class="w3-panel w3-pale-red w3-leftbar w3-rightbar w3-border-amber w3-round w3-border w3-card-4" id="scriptchecker">
+	<p>
+		{function="Loca::Get('NO_JAVASCRIPT')"}
+	</p>
+</div>
+<div id="ajaxloading" class="w3-panel w3-border w3-card-4 w3-theme-l3 w3-border-theme-l1 padding-4 w3-margin w3-center w3-round" style="display: none;">
+	<i class="fa fa-spinner fa-pulse w3-large"></i>
+	&nbsp;
+	{function="Loca::Get('AJAX_LOADING')"}
+</div>
+<div id="ajaxerror" class="w3-panel w3-leftbar w3-rightbar w3-round w3-border w3-card-4 w3-pale-yellow w3-border-yellow padding-4 w3-center" style="display: none;">
+	<b>
+		{function="Loca::Get('AJAX_ERROR')"}
+	</b>
+	<div class="w3-xxlarge">
+		<i class="fa fa-circle-o-notch fa-spin"></i>
+	</div>
+	<i>
+		{function="Loca::Get('AJAX_ERROR_WAIT')"}
+	</i>
+</div>

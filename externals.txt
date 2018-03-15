@@ -1,0 +1,15 @@
+name				version					download path												used in (path)				documentation
+
+## CSS ##
+W3.CSS				4.10					http://www.w3schools.com/w3css/w3css_downloads.asp			/css						https://www.w3schools.com/w3css/w3css_references.asp
+
+## FONTS ##
+Font-Awesome		v4.7.0 (5 looks bad)	https://github.com/FortAwesome/Font-Awesome/releases		/css + /fonts				http://fontawesome.io/icons/
+roboto				v2.136 (hinted)			https://github.com/google/roboto/releases					/fonts						---
+
+## SCRIPT ##
+jQuery				3.3.1					https://github.com/jquery/jquery/releases					/scripts					https://api.jquery.com/
+jQuery-ui			1.12.1					https://jqueryui.com/	( + github)							/scripts					https://api.jqueryui.com/
+
+## PHP ##
+RainTpl				(non offical)			original: https://github.com/feulf/raintpl3 ; (may) base: https://github.com/Panthera-Framework/raintpl4

@@ -1,0 +1,61 @@
+<div class="w3-container w3-theme-d2 w3-text-theme-l2 w3-small w3-center">
+	<div class="w3-container w3-bar">
+		<a href="javascript:void(0)" onclick="SetLanguage('de')" class="w3-hover-none w3-hover-text-theme-d5 w3-bar-item w3-hide-small link">
+			<i class="flag-icon flag-icon-de w3-hover-greyscale"></i>
+		</a>
+		<a href="javascript:void(0)" onclick="SetLanguage('en')" class="w3-hover-none w3-hover-text-theme-d5 w3-bar-item w3-hide-small link">
+			<i class="flag-icon flag-icon-gb w3-hover-greyscale"></i>
+		</a>
+	</div>
+	<br/>
+	<div class="w3-container w3-bar w3-hide-small">
+		<div class="w3-dropdown-hover w3-bar-item w3-margin-bottom w3-theme-d2">
+			<img src="{$home}img/logo/html.svg" alt="html logo" height="50" class="w3-hover-greyscale"/>
+			<div class="w3-dropdown-content w3-tag w3-text-theme-l5 w3-theme-d1 w3-card-4 w3-round-medium">
+				HTML 5
+			</div>
+		</div>
+		<div class="w3-dropdown-hover w3-bar-item w3-margin-bottom w3-theme-d2">
+			<img src="{$home}img/logo/css.svg" alt="css logo" height="50" class="w3-hover-greyscale"/>
+			<div class="w3-dropdown-content w3-tag w3-text-theme-l5 w3-theme-d1 w3-card-4 w3-round-medium">
+				CSS 3
+			</div>
+		</div>
+		<div class="w3-dropdown-hover w3-bar-item w3-margin-bottom w3-theme-d2">
+			<img src="{$home}img/logo/js.svg" alt="js logo" height="50" class="w3-hover-greyscale"/>
+			<div class="w3-dropdown-content w3-tag w3-text-theme-l5 w3-theme-d1 w3-card-4 w3-round-medium">
+				JavaScript
+			</div>
+		</div>
+		<div class="w3-bar-item w3-margin-bottom w3-theme-d2">
+		</div>
+		<div class="w3-bar-item w3-margin-bottom w3-theme-d2">
+		</div>
+		<div class="w3-dropdown-hover w3-bar-item w3-margin-bottom w3-theme-d2">
+			<img src="{$home}img/logo/mysql.svg" alt="mysql logo" height="50" class="w3-hover-greyscale"/>
+			<div class="w3-dropdown-content w3-tag w3-text-theme-l5 w3-theme-d1 w3-card-4 w3-round-medium">
+				MySQL
+			</div>
+		</div>
+		<div class="w3-dropdown-hover w3-bar-item w3-margin-bottom w3-theme-d2">
+			<img src="{$home}img/logo/php.svg" alt="php logo" height="50" class="w3-hover-greyscale"/>
+			<div class="w3-dropdown-content w3-tag w3-text-theme-l5 w3-theme-d1 w3-card-4 w3-round-medium">
+				PHP 7
+			</div>
+		</div>
+		<div class="w3-dropdown-hover w3-bar-item w3-margin-bottom w3-theme-d2">
+			<img src="{$home}img/logo/apache.svg" alt="apache logo" height="50" class="w3-hover-greyscale"/>
+			<div class="w3-dropdown-content w3-tag w3-text-theme-l5 w3-theme-d1 w3-card-4 w3-round-medium">
+				Apache
+			</div>
+		</div>
+	</div>
+	<div class="w3-container w3-tiny">
+		{function="Page::GetVersion()"} <i class="fa fa-github w3-large"></i> 2017-{function="date('Y')"}
+	</div>
+</div>
+<div id="mastermodal" class="w3-modal" style="display: none; z-index: 11;">
+</div>
+<script type="text/javascript">
+	$("#footer > div > div > a").attr("href", "javascript:void(0)");
+</script>

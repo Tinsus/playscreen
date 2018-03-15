@@ -1,0 +1,92 @@
+.bold {
+	font-weight: bold;
+}
+
+.link{
+	text-decoration: none!important
+}
+
+.margin-tiny{margin:2px 4px!important}
+.margin-small{margin:4px 8px!important}
+.margin-medium{margin:8px 16px!important}
+.margin-large{margin:12px 24px!important}
+.margin-xlarge{margin:16px 32px!important}
+.margin-xxlarge{margin:24px 48px!important}
+.margin-jumbo{margin:32px 64px!important}
+.margin-4{margin-left:4px!important;margin-right:4px!important}
+.margin-8{margin-left:8px!important;margin-right:8px!important}
+.margin-12{margin-left:12px!important;margin-right:12px!important}
+.margin-16{margin-left:16px!important;margin-right:16px!important}
+.margin-24{margin-left:24px!important;margin-right:24px!important}
+.margin-32{margin-left:32px!important;margin-right:32px!important}
+.margin-48{margin-left:48px!important;margin-right:48px!important}
+.margin-64{margin-left:64px!important;margin-right:64px!important}
+.margin-128{margin-left:128px!important;margin-right:128px!important}
+.margin-0{margin:0!important}
+
+.padding-tiny{padding:2px 4px!important}
+.padding-small{padding:4px 8px!important}
+.padding-medium,.padding{padding:8px 16px!important}
+.padding-large{padding:12px 24px!important}
+.padding-xlarge{padding:16px 32px!important}
+.padding-xxlarge{padding:24px 48px!important}
+.padding-jumbo{padding:32px 64px!important}
+.padding-4{padding-top:4px!important;padding-bottom:4px!important}
+.padding-8{padding-top:8px!important;padding-bottom:8px!important}
+.padding-12{padding-top:12px!important;padding-bottom:12px!important}
+.padding-16{padding-top:16px!important;padding-bottom:16px!important}
+.padding-24{padding-top:24px!important;padding-bottom:24px!important}
+.padding-32{padding-top:32px!important;padding-bottom:32px!important}
+.padding-48{padding-top:48px!important;padding-bottom:48px!important}
+.padding-64{padding-top:64px!important;padding-bottom:64px!important}
+.padding-128{padding-top:128px!important;padding-bottom:128px!important}
+.padding-0{padding:0!important}
+.padding-top{padding-top:8px!important}
+.padding-bottom{padding-bottom:8px!important}
+.padding-left{padding-left:16px!important}
+.padding-right{padding-right:16px!important}
+
+@font-face {
+	font-family: 'Roboto';
+	src: local(Roboto Regular), local(Roboto-Regular), url(../fonts/roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+	font-family: 'Roboto';
+	src: local(Roboto Bold), local(Roboto-Bold), url(../fonts/roboto/Roboto-Bold.ttf);
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Roboto';
+	src: local(Roboto Italic), local(Roboto-Italic), url(../fonts/roboto/Roboto-Italic.ttf);
+	font-style: Italic;
+}
+
+@font-face {
+	font-family: 'Roboto';
+	src: local(Roboto BoldItalic), local(Roboto-BoldItalic), url(../fonts/roboto/Roboto-BoldItalic.ttf);
+	font-weight: bold;
+	font-style: Italic;
+}
+
+html, body {
+	font-family: "Roboto", sans-serif;
+	letter-spacing: 0.03em;
+}
+
+.w3-serif {
+	font-family: serif;
+}
+
+.w3-code, .w3-codespan {
+	font-family: monospace;
+	font-size: 16px;
+	letter-spacing: 0em;
+}
+
+code, kbd, pre, samp {
+	font-family: monospace;
+	font-size: 1em;
+	letter-spacing: 0em;
+}

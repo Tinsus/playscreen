@@ -65,7 +65,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('11enc523icmn0fcu8h6iunbcpc','2018-03-15 23:06:22','language|s:2:\"de\";'),('6mn00qa728ahla2ep6d65stvk8','2018-03-16 23:15:33','language|s:2:\"de\";');
+INSERT INTO `sessions` VALUES ('6mn00qa728ahla2ep6d65stvk8','2018-03-17 00:30:14','language|s:2:\"de\";');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,4 +105,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 23:23:55
+-- Dump completed on 2018-03-17  0:32:34

@@ -10,14 +10,14 @@ if ($_SERVER['HTTP_HOST'] == "localhost") {
 }
 
 define ('MYSQL_HOST', '127.0.0.1');
-// USER
+// SAVE
 define ('MYSQL_USER1', 'root');
 define ('MYSQL_PASS1', '');
-define ('MYSQL_DB1', 'playscreen_user');
-// DATA
+define ('MYSQL_DB1', 'playscreen_save');
+// GAME
 define ('MYSQL_USER2', 'root');
 define ('MYSQL_PASS2', '');
-define ('MYSQL_DB2', 'playscreen_data');
+define ('MYSQL_DB2', 'playscreen_game');
 
 require_once("website/page.php");
 

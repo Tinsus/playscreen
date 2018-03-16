@@ -1,0 +1,3 @@
+#!/bin/sh
+echo `git describe --tags --long`
+echo `git describe --tags --long` > version.txt

@@ -7,7 +7,7 @@ class Loca {
 			return $key;
 		}
 
-		$db = DB::User()->execute("
+		$db = DB::Save()->execute("
 			SELECT
 				id, de AS fallback, ".$lang." AS main
 			FROM

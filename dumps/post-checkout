@@ -1,0 +1,8 @@
+#!/bin/sh
+
+exec 1>&2
+echo Loading SAVE-dump into the database
+mysql -u root terrarian_user --default-character-set=utf8 < dumps/save.sql
+echo Loading GAME-dump into the database
+mysql -u root terrarian_data --default-character-set=utf8 < dumps/game.sql
+exit 0

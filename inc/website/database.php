@@ -1,8 +1,8 @@
 <?php
 class DB {
 	private static $isSetup = false;
-	private static $User;
-	private static $Data;
+	private static $Save;
+	private static $Game;
 
 	static function buildConnectionString($host = "", $db = "") {
 		if ($host != "" && $db != "") {
@@ -15,7 +15,7 @@ class DB {
 	static function setupConnections() {
 		if (!DB::$isSetup) {
 			try {
-				DB::$User = new PDOEx(DB::buildConnectionString(MYSQL_HOST, MYSQL_DB1), MYSQL_USER1, MYSQL_PASS1, array(
+				DB::$Save = new PDOEx(DB::buildConnectionString(MYSQL_HOST, MYSQL_DB1), MYSQL_USER1, MYSQL_PASS1, array(
 					PDO::ATTR_PERSISTENT => true,
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
 				));
@@ -24,7 +24,7 @@ class DB {
 			}
 
 			try {
-				DB::$Data = new PDOEx(DB::buildConnectionString(MYSQL_HOST, MYSQL_DB2), MYSQL_USER2, MYSQL_PASS2, array(
+				DB::$Game = new PDOEx(DB::buildConnectionString(MYSQL_HOST, MYSQL_DB2), MYSQL_USER2, MYSQL_PASS2, array(
 					PDO::ATTR_PERSISTENT => true,
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
 				));
@@ -36,19 +36,19 @@ class DB {
 		}
 	}
 
-	static function User() {
+	static function Save() {
 		if (!DB::$isSetup) {
 			DB::setupConnections();
 		}
 
-		return DB::$User;
+		return DB::$Save;
 	}
 
-	static function Data() {
+	static function Game() {
 		if (!DB::$isSetup) {
 			DB::setupConnections();
 		}
 
-		return DB::$Data;
+		return DB::$Game;
 	}
 }

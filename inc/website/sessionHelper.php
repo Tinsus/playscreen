@@ -16,7 +16,7 @@ class MySessionHandler implements SessionHandlerInterface {
 			return self::read($_COOKIE["SessionAuth"], true);
 		}
 
-		$db = DB::User()->execute("
+		$db = DB::Save()->execute("
 			SELECT
 				value
 			FROM
@@ -39,7 +39,7 @@ class MySessionHandler implements SessionHandlerInterface {
 	}
 
 	public function write($id, $data) {
-		$db = DB::User()->execute("
+		$db = DB::Save()->execute("
 			REPLACE INTO
 				sessions
 				(id, value)
@@ -54,7 +54,7 @@ class MySessionHandler implements SessionHandlerInterface {
 	}
 
 	public function destroy($id) {
-		$db = DB::User()->execute("
+		$db = DB::Save()->execute("
 			DELETE FROM
 				sessions
 			WHERE
@@ -71,7 +71,7 @@ class MySessionHandler implements SessionHandlerInterface {
 			unlink($filename);
 		}
 
-		$db = DB::User()->execute("
+		$db = DB::Save()->execute("
 			DELETE FROM
 				sessions
 			WHERE

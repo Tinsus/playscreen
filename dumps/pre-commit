@@ -1,0 +1,14 @@
+#!/bin/sh
+
+exec 1>&2
+mysql -uroot -D playscreen_save -e "TRUNCATE errorlog";
+echo Dumping current SAVE database and adding it to commit
+rm -f dumps/save.sql
+mysqldump -u root playscreen_save --default-character-set=utf8 > dumps/save.sql
+git add dumps/save.sql
+
+echo Dumping current GAME database and adding it to commit
+rm -f dumps/game.sql
+mysqldump -u root playscreen_game --default-character-set=utf8 > dumps/game.sql
+git add dumps/game.sql
+exit 0

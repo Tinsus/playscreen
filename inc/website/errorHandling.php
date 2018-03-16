@@ -48,7 +48,7 @@ function HandleErrors($errCode, $errMsg = "", $errFile = "", $errLine = "") {
 			break;
 	}
 
-	$query = DB::User()->execute("
+	$query = DB::Save()->execute("
         INSERT INTO
 			errorlog
 			(id, err_code, err_type, err_msg, err_file, err_line)
@@ -121,7 +121,7 @@ function HandleException($ex, $parentEx = null) {
 		$message = get_class($ex).": ".$ex->getMessage()."\nStacktrace:\n".$ex->getTraceAsString();
 	}
 
-	DB::User()->execute("
+	DB::Save()->execute("
         INSERT INTO
 			errorlog
 			(id, err_code, err_type, err_msg, err_file, err_line)

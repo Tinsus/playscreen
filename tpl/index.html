@@ -4,88 +4,25 @@
 		<b>{function="Loca::Get('CATCHPHRASE')"}</b>
 	</p>
 </div>
-<div class="w3-row-padding padding-64 w3-theme-l1" id="desc">
+<div class="padding-64 w3-theme-l1" id="game1">
 	<h1 class="w3-center w3-margin-bottom">
-		{function="Loca::Get('INDEX_HEADER1')"}
+		{function="Loca::Get('GAME1')"}
 	</h1>
-	<div class="w3-quarter w3-margin-bottom">
-		<p>
-			{function="Loca::Get('INDEX_HEADER1_SMALL')"}
-		</p>
-		<p>
-			{function="Loca::Get('INDEX_HEADER1_LONG')"}
-		</p>
+	<div class="w3-half w3-margin-bottom">
+		{function="Loca::Get('GAME1_DESC')"}
 	</div>
-	<div class="w3-quarter w3-margin-bottom">
-		<div class="w3-hover-shadow w3-theme-l5 w3-container">
-			<div class="w3-jumbo w3-center w3-text-theme-d2">
-				<i class="fa fa-line-chart">
-				</i>
-			</div>
-			<h2>
-				{function="Loca::Get('INDEX_HEADER2_CARD1_HEADER')"}
-			</h2>
-			<h3>
-				{function="Loca::Get('INDEX_HEADER2_CARD1_LINE')"}
-			</h3>
-			<p>
-				{function="Loca::Get('INDEX_HEADER2_CARD1_EXAMPLE1')"}
-			</p>
-			<p>
-				{function="Loca::Get('INDEX_HEADER2_CARD1_EXAMPLE2')"}
-			</p>
-			<p>
-				{function="Loca::Get('INDEX_HEADER2_CARD1_EXAMPLE3')"}
-			</p>
-		</div>
+	<div class="w3-half w3-margin-bottom">
+		<img src="{$home}img/game1/logo.svg" alt="game 1 logo" style="width: 90%; max-height: 300px;"/>
 	</div>
 </div>
-<div class="padding-64" id="slides">
+<div class="padding-64" id="game2">
 	<h1 class="w3-center w3-margin-bottom">
-		{function="Loca::Get('INDEX_HEADER2')"}
+		{function="Loca::Get('GAME2')"}
 	</h1>
-	<div class="w3-container">
-		<center>
-			<div id="gallery">
-			</div>
-		</center>
+	<div class="w3-half w3-margin-bottom">
+		{function="Loca::Get('GAME2_DESC')"}
 	</div>
-	<div class="w3-container padding-large">
-		{function="Loca::Get('INDEX_HEADER2_LONGTEXT')"}
+	<div class="w3-half w3-margin-bottom">
+		<img src="{$home}img/game2/logo.svg" alt="game 2 logo" style="width: 90%; max-height: 300px;"/>
 	</div>
-	<script type="text/javascript">
-		{loop="$slideshow"}
-		SetLoca("IMGgallery{$counter}", "{function="Loca::Get('INDEX_HEADER2_IMG_'.str_replace('.','_',$value))"}");
-		{/loop}
-
-		{loop='array("AJAX_LOADING")'}
-		SetLoca("{$value}", "{function='Loca::Get($value)'}");
-		{/loop}
-
-		var resizeing = false;
-
-		$(window).resize(function() {
-			if (!resizeing) {
-				resizeing = true;
-
-				setTimeout(function() {
-					resizeGallery("gallery");
-					resizeing = false;
-				}, 500);
-			}
-		});
-
-		var slides = {
-			"gallery": {
-				"json": {function="json_encode($slideshow)"},
-				"index": 0
-			}
-		};
-
-		setupGallery("gallery");
-		setTimeout('resizeGallery("gallery")', 1000);
-		setTimeout('currentDiv(0, "gallery")', 1500);
-
-		galleryDia("gallery");
-	</script>
 </div>

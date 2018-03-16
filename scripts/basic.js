@@ -54,25 +54,6 @@ function SetLanguage(lang) {
 	});
 }
 
-function swapAccordion(showId, hideClass, iconId, iconClass, fade) {
-	if (iconId != undefined && iconClass != undefined) {
-		$("." + iconClass).removeClass("fa-caret-square-o-up");
-		$("." + iconClass).addClass("fa-caret-square-o-down");
-		$("#" + iconId).removeClass("fa-caret-square-o-down");
-		$("#" + iconId).addClass("fa-caret-square-o-up");
-	}
-
-	if (hideClass != undefined) {
-		$("." + hideClass).hide();
-	}
-
-	$("#" + showId).fadeIn();
-
-	if (fade) {
-		scrollTo("#" + showId);
-	}
-}
-
 jQuery.extend({
 	postJSON: function(url, data, callback) {
 		return jQuery.post(url, data, callback, "json");

@@ -10,10 +10,6 @@ if ($_SERVER['HTTP_HOST'] == "localhost") {
 require_once($root."inc/.module.php");
 
 $content = array(
-	"slideshow" => array(
-		"main.png",
-		"qr.png",
-	),
 );
 
 $page = new Page("INDEX_PAGE_TITLE", "index");

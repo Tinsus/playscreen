@@ -6,7 +6,7 @@ mysql -uroot -D playscreen_save -e "TRUNCATE errorlog";
 echo TRUNCATE sessions
 mysql -uroot -D playscreen_save -e "TRUNCATE sessions";
 echo TRUNCATE savegames
-mysql -uroot -D playscreen_save -e "TRUNCATE ";
+mysql -uroot -D playscreen_save -e "TRUNCATE savegames";
 echo Dumping current SAVE database and adding it to commit
 rm -f dumps/save.sql
 mysqldump -u root playscreen_save --default-character-set=utf8 > dumps/save.sql

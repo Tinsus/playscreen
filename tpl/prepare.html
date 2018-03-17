@@ -23,10 +23,8 @@
 	SetLoca("{$value}", "{function='Loca::Get($value)'}");
 	{/loop}
 
-	{loop='array(Param::Get('game'))'}
-	SetLoca("GAME{$value}", "{function='Loca::Get('GAME'.$value)'}");
-	SetLoca("GAME{$value}_DESC", "{function='Loca::Get('GAME'.$value.'_DESC')'}");
-	{/loop}
+	SetLoca("GAME{function='Param::Get('game')'}", "{function='Loca::Get('GAME'.Param::Get('game'))'}");
+	SetLoca("GAME{function='Param::Get('game')'}_DESC", "{function='Loca::Get('GAME'.Param::Get('game').'_DESC')'}");
 
 	prepareGame({function="Param::Get('game')"});
 </script>

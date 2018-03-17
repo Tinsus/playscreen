@@ -9,10 +9,6 @@ if ($_SERVER['HTTP_HOST'] == "localhost") {
 
 require_once($root."inc/.module.php");
 
-$content = array(
-	"game" => Param::Get("game"),
-);
-
 $template = "index_server";
 
 if (!Page::IsLocal() or Param::Has("player")) {

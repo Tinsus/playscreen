@@ -1,22 +1,19 @@
-<div class="padding-64 w3-center">
-	<h1 class="w3-center w3-margin-bottom" id="headline">
-	</h1>
-	<div class="w3-center w3-margin-bottom" id="image">
-	</div>
-	<div class="w3-center w3-margin-bottom" id="description">
-	</div>
-	<div class="w3-container w3-theme-l4" id="counter">
-		<i class="fa fa-spinner fa-pulse w3-jumbo w3-padding" id="wait"></i>
-		<p class="w3-xlarge">
-			<b id="num">0</b>/<span id="total">0</span>
-		</p>
-		<span class="w3-medium">{function='Loca::Get("GAMEID")'}: <span id="id"></span></span>
-	</div>
-	<p class="w3-container w3-btn w3-theme-l2 w3-xlarge" style="display: none;" id="play">
-		{function='Loca::Get("PLAY")'}!
+<div class="padding-64 w3-center" id="main">
+	<img src="{$home}img/logo.svg" alt="background picture" style="width: 90%; max-height: 300px;"/>
+	<p class="w3-container w3-text-theme-d5 w3-theme-l4 w3-xlarge">
+		<b>{function="Loca::Get('CATCHPHRASE')"}</b>
 	</p>
 </div>
-<script type="text/javascript">
-	SetLoca("GAME{$game}", "{function='Loca::Get('GAME'.$game)'}");
-	SetLoca("GAME{$game}_DESC", "{function='Loca::Get('GAME'.$game.'_DESC')'}");
-</script>
+{loop="array(1)"}
+<div class="padding-64{if='$counter%2==0'} w3-theme-l1{/if}" onclick="location.href = GetDomain() + 'prepare.php?game={$value}'" style="cursor: pointer;">
+	<h1 class="w3-center w3-margin-bottom">
+		{function="Loca::Get('GAME'.$value)"}
+	</h1>
+	<div class="w3-center w3-margin-bottom">
+		<img src="{$home}game{$value}/logo.svg" alt="game {$value} logo" style="width: 90%; max-height: 300px;"/>
+	</div>
+	<div class="w3-center w3-margin-bottom">
+		{function="Loca::Get('GAME'.$value.'_DESC')"}
+	</div>
+</div>
+{/loop}

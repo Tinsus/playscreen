@@ -44,6 +44,35 @@ LOCK TABLES `errorlog` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `savegames`
+--
+
+DROP TABLE IF EXISTS `savegames`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `savegames` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `game` int(10) unsigned DEFAULT NULL,
+  `numplayer` int(10) unsigned DEFAULT NULL,
+  `player` longtext,
+  `playerdata` longtext,
+  `gamedata` longtext,
+  `settings` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `savegames`
+--
+
+LOCK TABLES `savegames` WRITE;
+/*!40000 ALTER TABLE `savegames` DISABLE KEYS */;
+/*!40000 ALTER TABLE `savegames` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -65,7 +94,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('m2dcvbt0von8ukr5cunj222akf','2018-03-17 14:44:14','language|s:2:\"de\";'),('6mn00qa728ahla2ep6d65stvk8','2018-03-17 00:30:14','language|s:2:\"de\";');
+INSERT INTO `sessions` VALUES ('m2dcvbt0von8ukr5cunj222akf','2018-03-17 19:42:08','language|s:2:\"de\";');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-17 14:47:39
+-- Dump completed on 2018-03-17 19:43:04

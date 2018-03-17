@@ -9,16 +9,13 @@ if ($_SERVER['HTTP_HOST'] == "localhost") {
 
 require_once($root."inc/.module.php");
 
-$content = array(
-	"game" => Param::Get("game"),
-);
-
-$template = "index_server";
-
-if (!Page::IsLocal() or Param::Has("player")) {
-	$template = "index_player";
+if (!Page::IsLocal()) {
+	Page::Reroute();
 }
 
-$page = new Page("INDEX_PAGE_TITLE", $template);
-$page->AddScript("index", false);
+$content = array(
+);
+
+$page = new Page("GAME_PREPARE", "prepare");
+$page->AddScript("prepare", false);
 $page->Draw($content);

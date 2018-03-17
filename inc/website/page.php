@@ -7,7 +7,7 @@ class Page {
 	private $headerData = array(
 		array(
 			"link" => "index.php",
-			"icon" => "folder-open-o",
+			"icon" => "home",
 			"text" => "HOME",
 		),
 	);

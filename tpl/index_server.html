@@ -1,0 +1,22 @@
+<div class="padding-64 w3-center">
+	<h1 class="w3-center w3-margin-bottom" id="headline">
+	</h1>
+	<div class="w3-center w3-margin-bottom" id="image">
+	</div>
+	<div class="w3-center w3-margin-bottom" id="description">
+	</div>
+	<div class="w3-container w3-theme-l4" id="counter">
+		<i class="fa fa-spinner fa-pulse w3-jumbo w3-padding" id="wait"></i>
+		<p class="w3-xlarge">
+			<b id="num">0</b>/<span id="total">0</span>
+		</p>
+		<span class="w3-medium">{function='Loca::Get("GAMEID")'}: <span id="id"></span></span>
+	</div>
+	<p class="w3-container w3-btn w3-theme-l2 w3-xlarge" style="display: none;" id="play">
+		{function='Loca::Get("PLAY")'}!
+	</p>
+</div>
+<script type="text/javascript">
+	SetLoca("GAME{$game}", "{function='Loca::Get('GAME'.$game)'}");
+	SetLoca("GAME{$game}_DESC", "{function='Loca::Get('GAME'.$game.'_DESC')'}");
+</script>

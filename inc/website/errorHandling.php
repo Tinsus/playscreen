@@ -98,10 +98,6 @@ function HandleFatal() {
 		} else {
 			http_response_code(500);
 			HandleErrors($error["type"], $error["message"], $error["file"], $error["line"]);
-
-			if (!Page::IsLocal()) {
-				Page::Reroute("io/error.php?e=500");
-			}
 		}
 	}
 }
@@ -139,8 +135,6 @@ function HandleException($ex, $parentEx = null) {
 		ob_clean();
 
 		http_response_code(500);
-
-		Page::Reroute("io/error.php?e=500");
 	}
 }
 

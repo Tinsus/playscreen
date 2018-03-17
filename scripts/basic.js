@@ -132,7 +132,6 @@ function AjaxLoading(state, target) {
 	}
 
 	resizeSpacer();
-	swapNumberTouch();
 }
 
 function message(msg, color) {

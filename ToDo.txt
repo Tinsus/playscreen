@@ -1,0 +1,5 @@
+### Stuff to do ###
+- setup.php (server: setup game specific settings + wait for players) and custom.php (player: setup avatar or similar stuff) still missing
+- php classes for stuff like Player (::New ::Get -> link session to player-id)
+- detect disconnected players and allow reconnect
+- allow load old games to reconnect players

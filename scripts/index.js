@@ -37,7 +37,7 @@ function waitForGame(id) {
 		gameid: id,
 	}).done(function(json) {
 		if (json == true) {
-			location.href=GetDomain() + "play.php?id=" + id;
+			location.href = GetDomain() + "custom.php?id=" + id;
 		}
 
 		setTimeout("waitForGame(" + id + ")", 1000);

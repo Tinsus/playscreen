@@ -71,7 +71,7 @@ function play() {
 		operation: "startGameHosting",
 		game: $("#id").html(),
 	}).done(function(json) {
-		location.href=GetDomain() + "host.php?id=" + $("#id").html();
+		location.href=GetDomain() + "setup.php?id=" + $("#id").html();
 
 		AjaxLoading(false);
 	}).fail(function(jqXHR, msg) {

@@ -15,6 +15,9 @@ if (!Page::IsLocal() or Param::Has("player")) {
 	$template = "index_player";
 }
 
+$content = array(
+);
+
 $page = new Page("INDEX_PAGE_TITLE", $template);
 $page->AddScript("index", false);
 $page->Draw($content);

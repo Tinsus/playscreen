@@ -171,6 +171,23 @@ switch(Param::Get("operation")) {
 		Page::SendJSON(true);
 
 		break;
+	case "allChoosen":
+		$db = DB::Save()->execute('
+			SELECT
+				player, playerdata
+			FROM
+				savegames
+			WHERE
+				id = :id
+		', array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		Page::SendJSON(count(unserialize($db["playerdata"])) == count(unserialize($db["player"])));
+
+		break;
 	default:
 		Page::SendJSON(false);
 

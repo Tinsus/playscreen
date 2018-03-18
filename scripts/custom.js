@@ -28,7 +28,7 @@ function waitForPlayers(color) {
 		if (json == true) {
 			location.href = GetDomain() + "play.php?id=" + getUrlVar("id");
 		} else {
-			setTimeout("waitForPlayers(" + color + ")", 200);
+			setTimeout("waitForPlayers('" + color + "')", 200);
 		}
 	}).fail(function(jqXHR, msg) {
 		waitForPlayers(color);

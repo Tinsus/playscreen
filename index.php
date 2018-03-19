@@ -9,10 +9,10 @@ if ($_SERVER['HTTP_HOST'] == "localhost") {
 
 require_once($root."inc/.module.php");
 
-$template = "index_server";
+$template = "index_player";
 
-if (!Page::IsLocal() or Param::Has("player")) {
-	$template = "index_player";
+if (/*Page::IsLocal() or //*/Param::Has("server")) {
+	$template = "index_server";
 }
 
 $content = array(

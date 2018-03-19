@@ -88,6 +88,7 @@ switch(Param::Get("operation")) {
 		$db = $db->fetch();
 
 		if ($db["player"] == NULL) {
+			$numplayer = NULL;
 			$player = array();
 		} else {
 			$numplayer = $db["numplayer"];
@@ -186,6 +187,39 @@ switch(Param::Get("operation")) {
 		$db = $db->fetch();
 
 		Page::SendJSON(count(unserialize($db["playerdata"])) == count(unserialize($db["player"])));
+
+		break;
+	case "startCountdown":
+		DB::Save()->execute("
+			UPDATE
+				savegames
+			SET
+				settings = :settings
+			WHERE
+				id = :id
+		", array(
+			":id" => Param::Get("id"),
+			":settings" => Param::Get("settings"),
+		));
+
+		Page::SendJSON(true);
+
+		break;
+	case "checkCountdown":
+		$db = DB::Save()->execute("
+			SELECT
+				settings
+			FROM
+				savegames
+			WHERE
+				id = :id
+		", array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		Page::SendJSON($db["settings"]);
 
 		break;
 	default:

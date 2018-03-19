@@ -13,7 +13,7 @@ switch(Param::Get("operation")) {
 	case "watchColors":
 		$db = DB::Save()->execute('
 			SELECT
-				playerdata
+				playerdata, numplayer
 			FROM
 				savegames
 			WHERE
@@ -28,7 +28,11 @@ switch(Param::Get("operation")) {
 
 		if ($db["playerdata"] != NULL) {
 			foreach (unserialize($db["playerdata"]) as $k => $v) {
-				$choosen[] = $v["color"];
+				$choosen[] = [
+					$v["color"],
+					$v["name"],
+					$db["numplayer"] == count($db["playerdata"]),
+				];
 			}
 		}
 
@@ -78,8 +82,35 @@ switch(Param::Get("operation")) {
 		Page::SendJSON(true);
 
 		break;
-	default:
-		Page::SendJSON(false);
+	case "watchPlayers":
+		$db = DB::Save()->execute('
+			SELECT
+				playerdata, numplayer
+			FROM
+				savegames
+			WHERE
+				id = :id
+		', array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		$choosen = array();
+
+		if ($db["playerdata"] != NULL) {
+			foreach (unserialize($db["playerdata"]) as $k => $v) {
+				$choosen[] = [
+					$v["color"],
+					$v["name"],
+					$db["numplayer"],
+				];
+			}
+		}
+
+		Page::SendJSON($choosen);
 
 		break;
 }
+
+require_once($root."ajax.php");

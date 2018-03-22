@@ -27,6 +27,7 @@ $content = array(
 );
 
 $page = new Page("GAME_HOST", "host");
+$page->AddScript("snapsvg/snap.svg", true);
 $page->AddScript("host", false);
 $page->AddScript("../game".$db["game"]."/game", false);
 $page->Draw($content);

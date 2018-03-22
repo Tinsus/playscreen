@@ -10,6 +10,7 @@ roboto				v2.136 (hinted)			https://github.com/google/roboto/releases					/fonts
 ## SCRIPT ##
 jQuery				3.3.1					https://github.com/jquery/jquery/releases					/scripts					https://api.jquery.com/
 jQuery-ui			1.12.1					https://jqueryui.com/	( + github)							/scripts					https://api.jqueryui.com/
+Snap.svg			v0.5.1					https://github.com/adobe-webplatform/Snap.svg/releases		
 
 ## PHP ##
 RainTpl				(non offical)			original: https://github.com/feulf/raintpl3 ; (may) base: https://github.com/Panthera-Framework/raintpl4

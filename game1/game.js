@@ -1,75 +1,97 @@
 function setupGame() {
 	$("#game").html(`
-		<div class="w3-cell-row">
-			<div class="w3-cell corner">
-				&nbsp;
-			</div>
-			<div id="player1" class="w3-white w3-cell">
-				&nbsp;
-			</div>
-			<div class="w3-cell corner">
-				&nbsp;
-			</div>
-		</div>
-		<div class="w3-cell-row">
-			<div id="player2" class="w3-white w3-cell">
-				&nbsp;
-			</div>
-			<div class="w3-cell">
-				<img id="board" src="` + GetDomain() + `game` + game["game"] + `/logo.svg" alt="game ` + game["game"] + ` logo" style="height: 1px; width: 1px;"/>
-			</div>
-			<div id="player4" class="w3-white w3-cell">
-				&nbsp;
-			</div>
-		</div>
-		<div class="w3-cell-row">
-			<div class="w3-cell corner">
-				&nbsp;
-			</div>
-			<div id="player3" class="w3-white w3-cell">
-				&nbsp;
-			</div>
-			<div class="w3-cell corner">
-				&nbsp;
-			</div>
-		</div>
-	`);
+		<table>
+			<tr>
+				<td class="corner">
+					&nbsp;
+				</td>
+				<td class="w3-white" id="player1">
+					&nbsp;
+				</td>
+				<td class="corner">
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td class="w3-white" id="player2">
+					&nbsp;
+				</td>
+				<td id="board">
+					&nbsp;
+				</td>
+				<td class="w3-white" id="player4">
+					&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td class="corner">
+					&nbsp;
+				</td>
+				<td class="w3-white" id="player3">
+					&nbsp;
+				</td>
+				<td class="corner">
+					&nbsp;
+				</td>
+			</tr>
+		</table>
+		`);
 
 	setTimeout(function() {
-		var times = $("#pagecontent").height();
-		
-		$(".corner").height(times / 10);
-		$(".corner").width(times / 10);
+		var height = $("#pagecontent").height();
+		var width = $("#pagecontent").width();
 
-		$("#player2").width(times / 10);
-		$("#player4").width(times / 10);
-		
-		$("#board").height(times / 10 * 8);
-		$("#board").width(times / 10 * 8);
-		
-		$("#board").css("margin-left", ($("#pagecontent").width() - $("#player2").width() * 2 - times / 10 * 8) / 2);
-		
-		 $("#board").click(function (e) { //Relative ( to its parent) mouse position 
+		$(".corner").width(height / 10);
+		$(".corner").height(height / 10);
+
+		$("#player1").width(width - height / 10 * 2);
+		$("#player1").height(height / 10);
+		$("#player2").width(height / 10);
+		$("#player2").height(height / 10 * 8);
+		$("#player3").width(width - height / 10 * 2);
+		$("#player3").height(height / 10);
+		$("#player4").width(height / 10);
+		$("#player4").height(height / 10 * 8);
+
+		$("#board").html(`
+			<svg id="svg">
+			</svg>
+		`);
+
+		$("#svg").width(width - height / 10 * 2);
+		$("#svg").height(height / 10 * 8);
+
+/*
+		$("#board").click(function (e) { //Relative ( to its parent) mouse position
 			var posX = $(this).position().left + parseFloat($("#board").css("margin-left")),
 				posY = $(this).position().top;
 			alert((e.pageX - posX) + ' , ' + (e.pageY - posY));
 		});
+//*/
+/*
+		$.postJSON(GetDomain() + "ajax.php", {
+			operation: "waitForGame",
+			gameid: id,
+		}).done(function(json) {
+			if (json == true) {
+				location.href = GetDomain() + "custom.php?id=" + id;
+			}
+
+			setTimeout("waitForGame(" + id + ")", 1000);
+		}).fail(function(jqXHR, msg) {
+			waitForGame(id);
+		});
+//*/
+
+		drawBoard();
 	}, 1000);
 
-//$("#pagecontent").width()
-//$("#pagecontent").height()
-	$.postJSON(GetDomain() + "ajax.php", {
-		operation: "waitForGame",
-		gameid: id,
-	}).done(function(json) {
-		if (json == true) {
-			location.href = GetDomain() + "custom.php?id=" + id;
-		}
+}
 
-		setTimeout("waitForGame(" + id + ")", 1000);
-	}).fail(function(jqXHR, msg) {
-		waitForGame(id);
-	});
+function drawBoard() {
+	var s = Snap("#svg");
+
+	var bigCircle = s.circle(150, 150, 100);
 }
 
 function waitForPlayers(color) {

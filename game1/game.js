@@ -91,376 +91,511 @@ function drawBoard() {
 
 	var points = [
 		[
-			0,
-			0,
+			0, 0,
+			11, 0,
+		], [
+			0, 11,
+			0, 0,
+		], [
+			0, 11,
+			11, 11,
+		], [
+			11, 0,
+			11, 11,
+		],
+	];
+
+	for (len = points.length, i = 0; i < len; ++i) {
+		var line = s.line(
+			step * (points[i][1]), step * (points[i][0]),
+			step * (points[i][3]), step * (points[i][2])
+		);
+
+		line.attr({
+			stroke: "#000",
+			strokeWidth: 3,
+		});
+	}
+
+	var points = [
+		[
+			0, 4,
+			0, 6,
+		], [
+			0, 4,
+			4, 4,
+		], [
+			0, 5,
+			4, 5,
+		], [
+			0, 6,
+			4, 6,
+		], [
+			4, 0,
+			4, 4,
+		], [
+			4, 6,
+			4, 10,
+		], [
+			4, 0,
+			6, 0,
+		], [
+			4, 10,
+			6, 10,
+		], [
+			5, 0,
+			5, 4,
+		], [
+			5, 6,
+			5, 10,
+		], [
+			6, 0,
+			6, 4,
+		], [
+			6, 6,
+			6, 10,
+		], [
+			6, 4,
+			10, 4,
+		], [
+			6, 5,
+			10, 5,
+		], [
+			6, 6,
+			10, 6,
+		], [
+			10, 4,
+			10, 6,
+		],
+	];
+
+	for (len = points.length, i = 0; i < len; ++i) {
+		var line = s.line(
+			step * (points[i][1] + 0.5), step * (points[i][0] + 0.5),
+			step * (points[i][3] + 0.5), step * (points[i][2] + 0.5)
+		);
+
+		line.attr({
+			stroke: "#888",
+			strokeWidth: 3,
+		});
+	}
+
+	var points = [
+		[
+			0, 0,
 			"red",
 			"redpos1",
 		], [
-			0,
-			1,
+			0, 1,
 			"red",
 			"redpos2",
 		], [
-			0,
-			4,
+			0, 4,
 			"black",
 			"field39",
 		], [
-			0,
-			5,
+			0, 5,
 			"black",
 			"field40",
 		], [
-			0,
-			6,
+			0, 6,
 			"bluestart",
 			"field1",
 		], [
-			0,
-			9,
+			0, 9,
 			"blue",
 			"bluepos1",
 		], [
-			0,
-			10,
+			0, 10,
 			"blue",
 			"bluepos2",
 		], [
-			1,
-			0,
+			1, 0,
 			"red",
 			"redpos3",
 		], [
-			1,
-			1,
+			1, 1,
 			"red",
 			"redpos4",
 		], [
-			1,
-			4,
+			1, 4,
 			"black",
 			"field38",
 		], [
-			1,
-			5,
+			1, 5,
 			"blue",
 			"bluegoal1",
 		], [
-			1,
-			6,
+			1, 6,
 			"black",
 			"field2",
 		], [
-			1,
-			9,
+			1, 9,
 			"blue",
 			"bluepos3",
 		], [
-			1,
-			10,
+			1, 10,
 			"blue",
 			"bluepos4",
 		], [
-			2,
-			4,
+			2, 4,
 			"black",
 			"field37",
 		], [
-			2,
-			5,
+			2, 5,
 			"blue",
 			"bluegoal2",
 		], [
-			2,
-			6,
+			2, 6,
 			"black",
 			"field3",
 		], [
-			3,
-			4,
+			3, 4,
 			"black",
 			"field36",
 		], [
-			3,
-			5,
+			3, 5,
 			"blue",
 			"bluegoal3",
 		], [
-			3,
-			6,
+			3, 6,
 			"black",
 			"field4",
 		], [
-			4,
-			0,
+			4, 0,
 			"redstart",
 			"field31",
 		], [
-			4,
-			1,
+			4, 1,
 			"black",
 			"field32",
 		], [
-			4,
-			2,
+			4, 2,
 			"black",
 			"field33",
 		], [
-			4,
-			3,
+			4, 3,
 			"black",
 			"field34",
 		], [
-			4,
-			4,
+			4, 4,
 			"black",
 			"field35",
 		], [
-			4,
-			5,
+			4, 5,
 			"blue",
 			"bluegoal4",
 		], [
-			4,
-			6,
+			4, 6,
 			"black",
 			"field5",
 		], [
-			4,
-			7,
+			4, 7,
 			"black",
 			"field6",
 		], [
-			4,
-			8,
+			4, 8,
 			"black",
 			"field7",
 		], [
-			4,
-			9,
+			4, 9,
 			"black",
 			"field8",
 		], [
-			4,
-			10,
+			4, 10,
 			"black",
 			"field9",
 		], [
-			5,
-			0,
+			5, 0,
 			"black",
 			"field30",
 		], [
-			5,
-			1,
+			5, 1,
 			"red",
 			"redgoal1",
 		], [
-			5,
-			2,
+			5, 2,
 			"red",
 			"redgoal2",
 		], [
-			5,
-			3,
+			5, 3,
 			"red",
 			"redgoal3",
 		], [
-			5,
-			4,
+			5, 4,
 			"red",
 			"redgoal4",
 		], [
-			5,
-			6,
+			5, 6,
 			"yellow",
 			"yellowgoal4",
 		], [
-			5,
-			7,
+			5, 7,
 			"yellow",
 			"yellowgoal3",
 		], [
-			5,
-			8,
+			5, 8,
 			"yellow",
 			"yellowgoal2",
 		], [
-			5,
-			9,
+			5, 9,
 			"yellow",
 			"yellowgoal1",
 		], [
-			5,
-			10,
+			5, 10,
 			"black",
 			"field10",
 		], [
-			6,
-			0,
+			6, 0,
 			"black",
 			"field29",
 		], [
-			6,
-			1,
+			6, 1,
 			"black",
 			"field28",
 		], [
-			6,
-			2,
+			6, 2,
 			"black",
 			"field27",
 		], [
-			6,
-			3,
+			6, 3,
 			"black",
 			"field26",
 		], [
-			6,
-			4,
+			6, 4,
 			"black",
 			"field25",
 		], [
-			6,
-			5,
+			6, 5,
 			"green",
 			"greengoal4",
 		], [
-			6,
-			6,
+			6, 6,
 			"black",
 			"field15",
 		], [
-			6,
-			7,
+			6, 7,
 			"black",
 			"field14",
 		], [
-			6,
-			8,
+			6, 8,
 			"black",
 			"field13",
 		], [
-			6,
-			9,
+			6, 9,
 			"black",
 			"field12",
 		], [
-			6,
-			10,
-			"yellow",
+			6, 10,
 			"yellowstart",
+			"field11",
 		], [
-			7,
-			4,
+			7, 4,
 			"black",
 			"field24",
 		], [
-			7,
-			5,
+			7, 5,
 			"green",
 			"greengoal3",
 		], [
-			7,
-			6,
+			7, 6,
 			"black",
 			"field16",
 		], [
-			8,
-			4,
+			8, 4,
 			"black",
 			"field23",
 		], [
-			8,
-			5,
+			8, 5,
 			"green",
 			"greengoal2",
 		], [
-			8,
-			6,
+			8, 6,
 			"black",
 			"field17",
 		], [
-			9,
-			1,
+			9, 0,
 			"green",
 			"greenpos1",
 		], [
-			9,
-			2,
+			9, 1,
 			"green",
 			"greenpos2",
 		], [
-			9,
-			4,
+			9, 4,
 			"black",
 			"field22",
 		], [
-			9,
-			5,
+			9, 5,
 			"green",
 			"greengoal1",
 		], [
-			9,
-			6,
+			9, 6,
 			"black",
 			"field18",
 		], [
-			9,
-			9,
+			9, 9,
 			"yellow",
 			"yellowpos1",
 		], [
-			9,
-			10,
+			9, 10,
 			"yellow",
 			"yellowpos2",
 		], [
-			10,
-			1,
+			10, 0,
 			"green",
 			"greenpos3",
 		], [
-			10,
-			2,
+			10, 1,
 			"green",
 			"greenpos4",
 		], [
-			10,
-			4,
+			10, 4,
 			"greenstart",
 			"field21",
 		], [
-			10,
-			5,
+			10, 5,
 			"black",
 			"field20",
 		], [
-			10,
-			6,
+			10, 6,
 			"black",
 			"field19",
 		], [
-			10,
-			9,
+			10, 9,
 			"yellow",
 			"yellowpos3",
 		], [
-			10,
-			10,
+			10, 10,
 			"yellow",
 			"yellowpos4",
 		],
 	];
 
-	for (len = points.length, i = 0; i < len; ++i) {
-		var point = s.circle(step * (points[i][1] + 0.5), step * (points[i][0] + 0.5), step * 0.4);
+	var player = getPlayerPath(step);
+
+	for (i = 0; i < points.length; ++i) {
+		var circle = s.circle(
+			step * (points[i][1] + 0.5), step * (points[i][0] + 0.5),
+			step * 0.4
+		);
+
+		switch (points[i][2]) {
+			case "redstart":
+				var triangle = s.polygon([
+					step * (points[i][1] + 0.3), step * (points[i][0] + 0.3),
+					step * (points[i][1] + 0.3), step * (points[i][0] + 0.7),
+					step * (points[i][1] + 0.7), step * (points[i][0] + 0.5),
+				]);
+
+				triangle.attr({
+					fill: "#fff",
+					stroke: "#888",
+					strokeWidth: 2,
+				});
+
+				/*
+				var figure = s.path(player);
+
+				figure.attr({
+					fill: "#f00",
+					stroke: "#888",
+					strokeWidth: 2,
+				});
+				//*/
+
+			case "red":
+				circle.attr({
+					fill: "#f00",
+					stroke: "#888",
+					strokeWidth: 1,
+				});
+
+				break;
+			case "greenstart":
+				var triangle = s.polygon([
+					step * (points[i][1] + 0.7), step * (points[i][0] + 0.7),
+					step * (points[i][1] + 0.3), step * (points[i][0] + 0.7),
+					step * (points[i][1] + 0.5), step * (points[i][0] + 0.3),
+				]);
+
+				triangle.attr({
+					fill: "#fff",
+					stroke: "#888",
+					strokeWidth: 2,
+				});
+			case "green":
+				circle.attr({
+					fill: "#0f0",
+					stroke: "#888",
+					strokeWidth: 1,
+				});
+
+				break;
+			case "bluestart":
+				var triangle = s.polygon([
+					step * (points[i][1] + 0.3), step * (points[i][0] + 0.3),
+					step * (points[i][1] + 0.7), step * (points[i][0] + 0.3),
+					step * (points[i][1] + 0.5), step * (points[i][0] + 0.7),
+				]);
+
+				triangle.attr({
+					fill: "#fff",
+					stroke: "#888",
+					strokeWidth: 2,
+				});
+			case "blue":
+				circle.attr({
+					fill: "#00f",
+					stroke: "#888",
+					strokeWidth: 1,
+				});
+
+				break;
+			case "yellowstart":
+				var triangle = s.polygon([
+					step * (points[i][1] + 0.3), step * (points[i][0] + 0.5),
+					step * (points[i][1] + 0.7), step * (points[i][0] + 0.3),
+					step * (points[i][1] + 0.7), step * (points[i][0] + 0.7),
+				]);
+
+				triangle.attr({
+					fill: "#fff",
+					stroke: "#888",
+					strokeWidth: 2,
+				});
+			case "yellow":
+				circle.attr({
+					fill: "#ff0",
+					stroke: "#888",
+					strokeWidth: 1,
+				});
+
+				break;
+		}
+
+		circle.addClass(points[i][3]);
+		circle.addClass("undrop");
+	}
+}
+
+function getPlayerPath(step) {
+	var data = "M 0.55127468,2.6302667 0.01493222,2.6282667 0.01393618,2.454828 C 0.0129099,2.276012 0.01430632,2.2443013 0.02654046,2.1686271 0.06605833,1.9241661 0.2003231,1.5289706 0.39966503,1.0703341 0.42540283,1.01115 0.45231567,0.94994436 0.45949211,0.93436616 0.46661362,0.91882768 0.47188028,0.90507051 0.47108188,0.90388277 0.47028667,0.90289712 0.45535913,0.89270286 0.43790948,0.88161794 0.38298162,0.84687889 0.32306918,0.7966011 0.28490885,0.75329092 0.24912476,0.71271235 0.2150673,0.6565952 0.19623642,0.6073566 0.16675448,0.53025733 0.1621142,0.43171082 0.18322206,0.33075931 c 0.0331726,-0.15863243 0.13508705,-0.25997987 0.30121222,-0.299539 0.060313,-0.01435095 0.1124479,-0.01890369 0.19693,-0.01722114 0.1101969,0.0019795 0.1732873,0.01425198 0.2468745,0.04711069 0.13243032,0.05908633 0.20397732,0.16364046 0.22331442,0.32624168 0.00486,0.0408755 0.00194,0.13433483 -0.00529,0.1641848 -0.031292,0.13113799 -0.12344,0.24682649 -0.26655472,0.33466416 -0.016446,0.0100951 -0.025274,0.0174192 -0.025274,0.021081 0,0.002969 0.00302,0.0120744 0.0068,0.0199923 0.01268,0.0268215 0.078561,0.1784864 0.1063165,0.2447085 0.17495602,0.4174147 0.28820412,0.7615901 0.32666132,0.992779 0.013941,0.083827 0.015031,0.1044848 0.015031,0.2864252 0,0.1530007 -6.336e-4,0.1761604 -0.00486,0.1786247 -0.00291,0.002 -0.048277,0.003 -0.1108548,0.002 -0.058289,-3.761e-4 -0.34731942,-9.898e-4 -0.64230722,-0.002 z";
+
+	data = data.split(" ");
+
+	var round = 8
+
+	for (i = 0; i < data.length; ++i) {
+		if (data[i].length != 1) {
+			var nums = data[i].split(",");
+
+			data[i] = Math.round(parseFloat(nums[0]) / 1.33334 * step / 2 * 0.7 * Math.pow(10, round)) / Math.pow(10, round) + "," +  Math.round(parseFloat(nums[1]) / 2.65001 * step * 0.7 * Math.pow(10, round)) / Math.pow(10, round);
+		}
 	}
 
-/*
-	var bigCircle = s.circle(150, 150, 100);
-
-//*/
+	return data.join(" ");
 }
 
 function waitForPlayers(color) {

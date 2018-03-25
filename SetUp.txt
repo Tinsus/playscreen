@@ -1,0 +1,67 @@
+Get Raspberry Pi (3B+), good power supply with 2,5 A, large Touchscreen + fast SD Card
+
+-- PREPARE --
+
+- Format SD with a 8 GB partition FAT
+- download https://downloads.raspberrypi.org/NOOBS_latest
+- unpack NOOBS on local drive
+- Copy NOOBS on SD
+- boot NOOBS on Raspberry Pi
+- login to terminal
+-> raspi-config
+- enable SSH and change password
+- login to raspberry using SSH client like PuTTY (https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+-> sudo -i
+-> rpi-update
+-> apt-get update
+-> apt-get dist-upgrade
+- reboot
+
+-- SETUP WIFI-AP --
+
+https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
+
+-> sudo -i
+-> apt-get install dnsmasq hostapd
+-> systemctl stop dnsmasq
+-> systemctl stop hostapd
+-> nano /etc/dhcpcd.conf
+- add at end of file
+interface wlan0
+    static ip_address=192.168.4.1/24
+-> service dhcpcd restart
+-> mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+-> nano /etc/dnsmasq.conf
+- add
+interface=wlan0      # Use the require wireless interface - usually wlan0
+  dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
+-> nano /etc/hostapd/hostapd.conf
+interface=wlan0
+driver=nl80211
+ssid=GameTable
+hw_mode=g
+channel=7
+wmm_enabled=0
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=gametable
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+-> nano /etc/default/hostapd
+- Find #DAEMON_CONF replace with:
+DAEMON_CONF="/etc/hostapd/hostapd.conf"
+-> systemctl start hostapd
+-> systemctl start dnsmasq
+-> nano /etc/sysctl.conf
+- uncomment
+net.ipv4.ip_forward=1
+-> iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
+-> sh -c "iptables-save > /etc/iptables.ipv4.nat"
+-> nano /etc/rc.local
+- add just above "exit 0"
+iptables-restore < /etc/iptables.ipv4.nat
+-> reboot
+

@@ -74,13 +74,7 @@ class Page {
 	}
 
 	static function GetRoot() {
-		$root = $_SERVER["DOCUMENT_ROOT"];
-
-		if (self::IsLocal()) {
-			return $root."/playscreen/";
-		} else {
-			return $root."/";
-		}
+		return $_SERVER["DOCUMENT_ROOT"]."/playscreen/";;
 	}
 
 	function Draw($parameters = null, $rereturn = false) {
@@ -238,18 +232,9 @@ class Page {
 		$this->startupCSS[] = array($script, $min);
 	}
 
-	static function IsLocal() {
-		return $_SERVER['HTTP_HOST'] == "localhost";
-	}
-
 	static function GetDomain($forceSecure = false, $nosuffix = false) {
-		if (self::IsLocal()) {
-			$prefix = "";
-			$suffix = "/playscreen";
-		} else {
-			$prefix = "";
-			$suffix = "";
-		}
+		$prefix = "";
+		$suffix = "/playscreen";
 
 		$https = @$_SERVER['HTTPS'];
 

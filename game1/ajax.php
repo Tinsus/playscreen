@@ -1,11 +1,5 @@
 <?php
-$root = $_SERVER["DOCUMENT_ROOT"];
-
-if ($_SERVER['HTTP_HOST'] == "localhost") {
-	$root .= "/playscreen/";
-} else {
-	$root .= "/";
-}
+$root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 
 require_once($root."inc/.module.php");
 

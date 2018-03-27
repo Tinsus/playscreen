@@ -1,13 +1,7 @@
 <?php
 ob_start();
 
-$root = $_SERVER["DOCUMENT_ROOT"];
-
-if ($_SERVER['HTTP_HOST'] == "localhost") {
-	$root .= "/playscreen/";
-} else {
-	$root .= "/";
-}
+$root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 
 define ('MYSQL_HOST', '127.0.0.1');
 // SAVE

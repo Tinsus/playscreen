@@ -69,3 +69,12 @@ iptables-restore < /etc/iptables.ipv4.nat
 
 -> sudo -i
 -> apt-get install mysql-server apache2 php
+
+-- SETUP SOFTWARE --
+
+-> sudo -i
+-> apt-get install iceweasel git
+-> cd /var/www/html/
+-> git clone https://github.com/Tinsus/playscreen.git
+- copy files from /dumps/git-hooks to /.git/hooks
+- make playscreen writable and (esp. /.git/hooks) executable (chmod +x)

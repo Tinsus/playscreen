@@ -1,4 +1,5 @@
 ### Stuff to do ###
+- server is set by opening sever-specific file setting tag in session its the server and than redirecting to the very same pages the players goes
 - if localhost or not: url always includes subfolder (much more easy)
 - player-position save and shown on edge of the screen
 - https://jqueryui.com/droppable/

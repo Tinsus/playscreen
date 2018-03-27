@@ -40,7 +40,7 @@ interface=wlan0
 driver=nl80211
 ssid=GameTable
 hw_mode=g
-channel=7
+channel=10
 wmm_enabled=0
 macaddr_acl=0
 auth_algs=1
@@ -69,6 +69,16 @@ iptables-restore < /etc/iptables.ipv4.nat
 
 -> sudo -i
 -> apt-get install mysql-server apache2 php
+-> cd /var/www/html
+-> chmod -R guo+rwx *
+-> sudo mysql_secure_installation
+- login solved by: https://kofler.info/root-login-problem-mit-mariadb/
+-> mysql -u root
+-> grant all on *.* to root2@localhost identified by 'root' with grant option;
+-> CREATE DATABASE `playscreen_save` /*!40100 COLLATE 'utf8_general_ci' */;
+-> CREATE DATABASE `playscreen_game` /*!40100 COLLATE 'utf8_general_ci' */;
+-> EXIT;
+- !your DB-user is now root2 with password root and is reachable with SSH
 
 -- SETUP SOFTWARE --
 
@@ -76,5 +86,19 @@ iptables-restore < /etc/iptables.ipv4.nat
 -> apt-get install iceweasel git
 -> cd /var/www/html/
 -> git clone https://github.com/Tinsus/playscreen.git
-- copy files from /dumps/git-hooks to /.git/hooks
-- make playscreen writable and (esp. /.git/hooks) executable (chmod +x)
+- copy all files from /dumps/git-hooks to /.git/hooks
+-> cd /git/hooks
+-> chmod -R guo+rwx *
+
+-- DEBUG STUFF--
+
+- to reset mariadb:
+-> sudo dpkg_reconfigure mysql_server
+
+-- REQUIREMENTS FOR DEV-SETUP --
+- running LAMP or XAMPP or similar
+- installed GIT
+- GIT configurated and authorizised to work on https://github.com/Tinsus/playscreen.git
+- git-hooks from dumps/git-hooks copied to .git/hooks
+- mariaDB with "root2" root-user-copy with password "root"
+- Databases: playscreen_save and playscreen_game

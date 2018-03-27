@@ -5,12 +5,12 @@ $root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 
 define ('MYSQL_HOST', '127.0.0.1');
 // SAVE
-define ('MYSQL_USER1', 'root');
-define ('MYSQL_PASS1', '');
+define ('MYSQL_USER1', 'root2');
+define ('MYSQL_PASS1', 'root');
 define ('MYSQL_DB1', 'playscreen_save');
 // GAME
-define ('MYSQL_USER2', 'root');
-define ('MYSQL_PASS2', '');
+define ('MYSQL_USER2', 'root2');
+define ('MYSQL_PASS2', 'root');
 define ('MYSQL_DB2', 'playscreen_game');
 
 require_once("website/page.php");

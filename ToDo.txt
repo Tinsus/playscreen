@@ -1,6 +1,6 @@
 ### Stuff to do ###
+
 - server is set by opening sever-specific file setting tag in session its the server and than redirecting to the very same pages the players goes
-- if localhost or not: url always includes subfolder (much more easy)
 - player-position save and shown on edge of the screen
 - https://jqueryui.com/droppable/
 - rework matchmaking: only one file for matchmaking, using php classes and AJAX
@@ -8,8 +8,14 @@
 - php classes for stuff like Player (::New ::Get -> link session to player-id)
 - detect disconnected players and allow reconnect
 - allow load old games to reconnect players
+- version.txt could may use git describe --tags
 
-Game-Ideas:
+### hardware ###
+
+- auto open iceweasle fullscreen on screen startup
+
+### Game-Ideas ###
+
 - Uno
 - Jepardy
 - S&S

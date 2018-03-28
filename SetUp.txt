@@ -86,8 +86,8 @@ iptables-restore < /etc/iptables.ipv4.nat
 -> apt-get install iceweasel git
 -> cd /var/www/html/
 -> git clone https://github.com/Tinsus/playscreen.git
+-> chmod -R guo+rwx *
 - copy all files from /dumps/git-hooks to /.git/hooks
--> cd /git/hooks
 -> chmod -R guo+rwx *
 
 -- DEBUG STUFF--

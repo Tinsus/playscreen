@@ -62,14 +62,6 @@ function HandleErrors($errCode, $errMsg = "", $errFile = "", $errLine = "") {
 		":errLine" => $errLine,
 	));
 
-	if (@!Page::IsLocal()) {
-		@sendmail(
-			"fabian@terrarian.de",
-			"Errorlog (".$errType."): ".$errFile,
-			'<table><th><td>Type</td><td>Msg</td><td>File</td><td>Line</td></th><tr><td>'.$errType.'</td><td>'.$errMsg.'</td><td>'.$errFile.'</td><td>'.$errLine.'</td></tr></table>'
-		);
-	}
-
 	return true;
 }
 

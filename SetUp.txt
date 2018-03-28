@@ -89,6 +89,7 @@ iptables-restore < /etc/iptables.ipv4.nat
 -> chmod -R guo+rwx *
 - copy all files from /dumps/git-hooks to /.git/hooks
 -> chmod -R guo+rwx *
+-> nano /etc/crontab
 
 -- DEBUG STUFF--
 

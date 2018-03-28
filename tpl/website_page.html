@@ -7,7 +7,7 @@
 		<title>{$title}</title>
 		<link rel="icon" type="image/svg" href="{$home}img/logo/logo.svg"/>
 		{loop="$css"}
-		<link rel="stylesheet" href="{$home}css/{$value[0]}{if='$value[1] and !Page::IsLocal()'}.min{/if}.css">
+		<link rel="stylesheet" href="{$home}css/{$value[0]}{if='$value[1]'}.min{/if}.css">
 		{/loop}
 		{loop="$scripts"}
 		<script type="text/javascript" src="{$home}scripts/{$value[0]}{if='$value[1] and !Page::IsLocal()'}.min{/if}.js"></script>

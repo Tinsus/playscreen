@@ -5,7 +5,7 @@ require_once($root."inc/.module.php");
 
 $template = "index_player";
 
-if (/*Page::IsLocal() or //*/Param::Has("server")) {
+if (Param::Has("server")) {
 	$template = "index_server";
 }
 

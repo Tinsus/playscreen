@@ -3,7 +3,7 @@ $root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 
 require_once($root."inc/.module.php");
 
-if (!Page::IsLocal()) {
+if (true /*is server*/) {
 	Page::Reroute();
 }
 

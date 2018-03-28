@@ -84,9 +84,9 @@ iptables-restore < /etc/iptables.ipv4.nat
 
 -> sudo -i
 -> apt-get install iceweasel git
--> hostname playtable
+-> hostname playscreen
 -> passwd root
-- ! ssh login on: host playtable port 22 user pi password root (after reboot possible)
+- ! ssh login on: host playscreen port 22 user pi password root (after reboot possible)
 -> pcmanfm
 - delete html and add read write and execute permissions to everyone on www
 -> exit

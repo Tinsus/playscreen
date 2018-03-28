@@ -92,6 +92,7 @@ iptables-restore < /etc/iptables.ipv4.nat
 -> nano /etc/crontab
 - add at end of file:
 
+
 -- DEBUG STUFF--
 
 - to reset mariadb:

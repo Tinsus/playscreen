@@ -84,20 +84,17 @@ iptables-restore < /etc/iptables.ipv4.nat
 
 -> sudo -i
 -> apt-get install iceweasel git
--> hostname playscreen
+-> hostname playtable
 -> passwd root
-- ! ssh login on: host playscreen port 22 user pi password root (after reboot possible)
+- ! ssh login on: host playtable port 22 user pi password root (after reboot possible)
 -> pcmanfm
 - delete html and add read write and execute permissions to everyone on www
--> exit
--> cd /var/www/
--> git clone https://github.com/Tinsus/playscreen.git html
--> sudo -i
--> cd /var/www/
+-> cd /var/www/html
+-> git clone https://github.com/Tinsus/playscreen.git
 -> chmod -R guo+rwx *
 -> nano /etc/crontab
 - add at end of file:
-*/1  *    * * *   root    cd /var/www/html && git fetch https://github.com/Tinsus/playscreen.git --force
+*/1  *    * * *   root    cd /var/www/html/playscreen && git fetch https://github.com/Tinsus/playscreen.git --force
 
 -- DEBUG STUFF--
 

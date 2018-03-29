@@ -25,3 +25,5 @@ require_once("Rain/autoload.php");
 require_once("Rain/RainTPL4.php");
 
 require_once("website/param.php");
+
+require_once("website/server.php");

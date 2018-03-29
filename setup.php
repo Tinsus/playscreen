@@ -28,5 +28,5 @@ if (Server::IsServer()) {
 
 $page = new Page("GAME_SETUP", $template);
 $page->AddScript("setup", false);
-$page->AddScript("../game".$db["game"]."/server", false);
+$page->AddScript("../game".$db["game"]."/setup", false);
 $page->Draw($content);

@@ -9,7 +9,7 @@ Get Raspberry Pi (3B+), good power supply with 2,5 A, large Touchscreen + fast S
 - boot NOOBS on Raspberry Pi
 - login to terminal
 -> raspi-config
-- enable SSH and change password
+- enable SSH
 - login to raspberry using SSH client like PuTTY (https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 -> sudo -i
 -> rpi-update
@@ -84,15 +84,21 @@ iptables-restore < /etc/iptables.ipv4.nat
 
 -> sudo -i
 -> apt-get install iceweasel git
--> hostname playtable
+-> hostname gametable
 -> passwd root
-- ! ssh login on: host playtable port 22 user pi password root (after reboot possible)
+- ! ssh login on: host gametable port 22 user pi password root (after reboot possible)
 -> cd /var/www/html
 -> git clone https://github.com/Tinsus/playscreen.git
 -> chmod -R guo+rwx *
 -> nano /etc/crontab
 - add at end of file:
 */1  *    * * *   root    cd /var/www/html/playscreen && git fetch https://github.com/Tinsus/playscreen.git --force
+-> nano /etc/hosts
+- comment with #
+127.0.0.1	gametable
+- add at end of file
+192.168.4.1	gametable
+-> reboot
 
 -- DEBUG STUFF--
 

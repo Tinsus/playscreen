@@ -2,6 +2,8 @@
 
 - rework matchmaking: only one file for matchmaking, using php classes and AJAX
 - setup.php (server: setup game specific settings + wait for players) and custom.php (player: setup avatar or similar stuff) still missing
+- Reroute if game has no active server
+- Interrupt if player gets inactive
 - player-position save and shown on edge of the server-screen
 - https://jqueryui.com/droppable/
 - php classes for stuff like Player (::New ::Get -> link session to player-id)

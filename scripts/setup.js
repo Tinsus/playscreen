@@ -37,3 +37,14 @@ function waitForPlayers(color) {
 		waitForPlayers(color);
 	});
 }
+
+function customize() {
+	if ($("#name").val().length == 0) {
+		return false;
+	}
+
+	$("#name_button").addClass("w3-disabled");
+	$("#name_button").prop("disabled", true);
+
+	donext();
+}

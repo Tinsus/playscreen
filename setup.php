@@ -20,7 +20,13 @@ $content = array(
 	"game" => $db,
 );
 
-$page = new Page("GAME_SETUP", "setup");
+$template = "setup_player";
+
+if (Server::IsServer()) {
+	$template = "setup_server";
+}
+
+$page = new Page("GAME_SETUP", $template);
 $page->AddScript("setup", false);
 $page->AddScript("../game".$db["game"]."/server", false);
 $page->Draw($content);

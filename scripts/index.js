@@ -1,14 +1,14 @@
-function joinGame() {
+function getGame() {
 	AjaxLoading(true);
 
 	$.postJSON(GetDomain() + "ajax.php", {
-		operation: "joinGame",
+		operation: "getGame",
 		gameid: $("#gameid").val(),
 	}).done(function(json) {
 		if (json == false) {
 			$("#gameid").val("");
 		} else {
-			$("#joinGame").hide();
+			$("#getGame").hide();
 
 			$("#headline").html(json["name"]);
 
@@ -20,14 +20,25 @@ function joinGame() {
 
 			$("#waitForGame").show();
 
-			waitForGame(json["id"]);
+			joinGame(json["id"]);
 		}
 
 		AjaxLoading(false);
 	}).fail(function(jqXHR, msg) {
 		AjaxLoading(2);
 
-		joinGame();
+		getGame();
+	});
+}
+
+function joinGame(id) {
+	$.postJSON(GetDomain() + "ajax.php", {
+		operation: "joinGame",
+		gameid: id,
+	}).done(function(json) {
+		waitForGame(id);
+	}).fail(function(jqXHR, msg) {
+		joinGame(id);
 	});
 }
 
@@ -51,7 +62,7 @@ function prepareGame(game) {
 	$(".gamedecs").hide();
 
 	$("#prepare").fadeIn();
-	
+
 	$("#headline").html(GetLoca("GAME" + game));
 
 	$("#image").html(`

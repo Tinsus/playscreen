@@ -51,54 +51,24 @@ switch(Param::Get("operation")) {
 		Page::SendJSON(true);
 
 		break;
-	case "allChoosen":
-		$db = DB::Save()->execute('
-			SELECT
-				player, playerdata
-			FROM
-				savegames
-			WHERE
-				id = :id
-		', array(
-			":id" => Param::Get("id"),
-		));
-
-		$db = $db->fetch();
-
-		Page::SendJSON(count(unserialize($db["playerdata"])) == count(unserialize($db["player"])));
+	case "getGameData":
+		Page::SendJSON(Game::Get(Param::Get("id")));
 
 		break;
-	case "startCountdown":
-		DB::Save()->execute("
-			UPDATE
-				savegames
-			SET
-				settings = :settings
-			WHERE
-				id = :id
-		", array(
-			":id" => Param::Get("id"),
-			":settings" => Param::Get("settings"),
-		));
+	case "selectAvatar":
+		Game::SetAvatar(Param::Get("id"), Param::Get("name"), Param::Get("avatar"));
 
 		Page::SendJSON(true);
 
 		break;
 	case "checkCountdown":
-		$db = DB::Save()->execute("
-			SELECT
-				settings
-			FROM
-				savegames
-			WHERE
-				id = :id
-		", array(
-			":id" => Param::Get("id"),
-		));
+		Page::SendJSON(Game::IsReady(Param::Get("id")));
 
-		$db = $db->fetch();
+		break;
+	case "gameName":
+		Game::SetName(Param::Get("id"), Param::Get("name"));
 
-		Page::SendJSON($db["settings"]);
+		Page::SendJSON(true);
 
 		break;
 	default:

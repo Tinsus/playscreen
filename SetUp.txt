@@ -10,11 +10,14 @@ Get Raspberry Pi (3B+), good power supply with 2,5 A, large Touchscreen + fast S
 - login to terminal
 -> raspi-config
 - enable SSH
-- login to raspberry using SSH client like PuTTY (https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+- you may login to raspberry using SSH client like PuTTY (https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 -> sudo -i
 -> rpi-update
 -> apt-get update
 -> apt-get dist-upgrade
+-> nano /etc/lightdm/lightdm.conf
+- find ->[Seat:*]<- and within this tag replace ->#xserver-command=X<- with
+xserver-command=X -s 0 -dpms
 - reboot
 
 -- SETUP WIFI-AP --

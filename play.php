@@ -3,25 +3,20 @@ $root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 
 require_once($root."inc/.module.php");
 
-$db = DB::Save()->execute('
-	SELECT
-		*
-	FROM
-		savegames
-	WHERE
-		id = :id
-', array(
-	":id" => Param::Get("id"),
-));
-
-$db = $db->fetch();
+$db = Game::Get(Param::Get("id"));
 
 $content = array(
 	"game" => $db,
 );
 
-$page = new Page("GAME_HOST", "host");
+$template = "play_player";
+
+if (Server::IsServer()) {
+	$template = "play_server";
+}
+
+$page = new Page("GAME_PLAY", $template);
 $page->AddScript("snapsvg/snap.svg", true);
-$page->AddScript("host", false);
+$page->AddScript("play", false);
 $page->AddScript("../game".$db["game"]."/game", false);
 $page->Draw($content);

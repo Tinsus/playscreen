@@ -1,6 +1,8 @@
 ### Stuff to do ###
 
 - rework matchmaking: only one file for matchmaking, using php classes and AJAX
+- index_player: only see active sessions and join with single touch
+- index_server: see old saved games and players on it
 - setup.php (server: setup game specific settings + wait for players) and custom.php (player: setup avatar or similar stuff) still missing
 - Reroute if game has no active server
 - Interrupt if player gets inactive

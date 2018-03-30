@@ -17,12 +17,12 @@
 				return "{function='Page::GetDomain()'}";
 			}
 
-			function GetDomainNoSuffix() {
-				return "{function='Page::GetDomain(false,true)'}";
-			}
-
 			function GetLanguage() {
 				return '{function="Loca::GetLanguage()"}';
+			}
+
+			function IsServer() {
+				return {function="Server::IsServer() == true"};
 			}
 		</script>
 	</head>

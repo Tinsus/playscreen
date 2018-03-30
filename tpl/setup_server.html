@@ -7,13 +7,13 @@
 			<input type="text" id="name" class="w3-input" value="#{$game['id']}"/>
 		</div>
 		<div class="w3-third w3-center">
-			<button onclick="showConfig({$game['game']})" class="w3-button w3-green" id="name_button">
+			<button onclick="setupAvatars()" class="w3-button w3-green" id="name_button">
 				{function="Loca::Get('OK')"}
 			</button>
 		</div>
 	</div>
 </div>
-<div class="padding-64 w3-theme-l4" id="config" style="display: none;">
+<div class="padding-64 w3-theme-l4" id="avatar" style="display: none;">
 </div>
 <script type="text/javascript">
 	{loop='array("WAITFOROTHERS")'}

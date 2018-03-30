@@ -92,7 +92,7 @@ iptables-restore < /etc/iptables.ipv4.nat
 -> chmod -R guo+rwx *
 -> nano /etc/crontab
 - add at end of file:
-*/1  *    * * *   root    cd /var/www/html/playscreen && git fetch https://github.com/Tinsus/playscreen.git --force
+*/1  *    * * *   root    cd /var/www/html/playscreen && git fetch https://github.com/Tinsus/playscreen.git --force && git reset --hard origin/master && git pull
 -> nano /etc/hosts
 - comment with #
 127.0.0.1	gametable

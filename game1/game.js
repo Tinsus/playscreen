@@ -473,8 +473,6 @@ function drawBoard() {
 		],
 	];
 
-	var player = getPlayerPath(step);
-
 	for (i = 0; i < points.length; ++i) {
 		var circle = s.circle(
 			step * (points[i][1] + 0.5), step * (points[i][0] + 0.5),
@@ -494,17 +492,6 @@ function drawBoard() {
 					stroke: "#888",
 					strokeWidth: 2,
 				});
-
-				/*
-				var figure = s.path(player);
-
-				figure.attr({
-					fill: "#f00",
-					stroke: "#888",
-					strokeWidth: 2,
-				});
-				//*/
-
 			case "red":
 				circle.attr({
 					fill: "#f00",
@@ -576,7 +563,101 @@ function drawBoard() {
 		}
 
 		circle.addClass(points[i][3]);
-		circle.addClass("undrop");
+	}
+
+	var points = [
+		[
+			0, 0,
+			"#f00",
+			"redplayer1",
+		], [
+			0, 1,
+			"#f00",
+			"redplayer2",
+		], [
+			1, 0,
+			"#f00",
+			"redplayer3",
+		], [
+			1, 1,
+			"#f00",
+			"redplayer4",
+		], [
+			0, 9,
+			"#00f",
+			"blueplayer1",
+		], [
+			0, 10,
+			"#00f",
+			"blueplayer2",
+		], [
+			1, 9,
+			"#00f",
+			"blueplayer3",
+		], [
+			1, 10,
+			"#00f",
+			"blueplayer4",
+		], [
+			9, 0,
+			"#0f0",
+			"greenplayer1",
+		], [
+			9, 1,
+			"#0f0",
+			"greenplayer2",
+		], [
+			10, 0,
+			"#0f0",
+			"greenplayer3",
+		], [
+			10, 1,
+			"#0f0",
+			"greenplayer4",
+		], [
+			9, 9,
+			"#ff0",
+			"yellowplayer1",
+		], [
+			9, 10,
+			"#ff0",
+			"yellowplayer2",
+		], [
+			10, 9,
+			"#ff0",
+			"yellowplayer3",
+		], [
+			10, 10,
+			"#ff0",
+			"yellowplayer4",
+		],
+	];
+
+	var player = getPlayerPath(step);
+	var bbox = Snap.path.getBBox(player);
+	var height = $("#pagecontent").height();
+
+	for (i = 0; i < points.length; ++i) {
+		$("#board").append(`
+			<svg id="` + points[i][3] + `">
+			</svg>
+		`);
+
+		$("#" + points[i][3]).width(step);
+		$("#" + points[i][3]).height(step);
+
+		var s = Snap("#" + points[i][3]);
+
+		var figure = s.path(player);
+
+		figure.addClass(points[i][3]);
+
+		figure.attr({
+			fill: points[i][2],
+			stroke: "#888",
+			strokeWidth: 2,
+			transform: "t" + ($("#" + points[i][3]).width() - bbox.width) / 2 + "," + ($("#" + points[i][3]).height() - bbox.height) / 2,
+		});
 	}
 }
 

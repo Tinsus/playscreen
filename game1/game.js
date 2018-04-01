@@ -639,7 +639,7 @@ function drawBoard() {
 
 	for (i = 0; i < points.length; ++i) {
 		$("#board").append(`
-			<svg id="` + points[i][3] + `">
+			<svg id="` + points[i][3] + `" class="player">
 			</svg>
 		`);
 
@@ -659,6 +659,84 @@ function drawBoard() {
 			transform: "t" + ($("#" + points[i][3]).width() - bbox.width) / 2 + "," + ($("#" + points[i][3]).height() - bbox.height) / 2,
 		});
 	}
+
+	$("#board").append(`
+		<div id="draggable" class="ui-widget-content">
+		  <p>Drag me to my target</p>
+		</div>
+		<div id="droppable" class="ui-widget-header">
+		  <p>Drop here</p>
+		</div>
+	`);
+
+	$( "#draggable" ).draggable();
+
+	$( "#droppable" ).droppable({
+		drop: function( event, ui ) {
+			$( this )
+			.addClass( "ui-state-highlight" )
+			.find( "p" )
+			.html( "Dropped!" );
+		},
+		over: function(event, ui) {
+			$( this )
+			.addClass( "ui-state-highlight" )
+			.find( "p" )
+			.html( "Hover..." );
+
+			$("#draggable").draggable({
+				grid: [50, 50]
+			});
+		},
+		out: function(event, ui) {
+			$("#draggable").draggable("option", "grid", false);
+		},
+	});
+
+/*
+// :(	https://bugs.jqueryui.com/ticket/4211	:(
+
+	$("#redplayer1").draggable();
+
+	$(".field40").droppable({
+		over: function(event, ui) {
+			$("#droppable")
+			.addClass( "ui-state-highlight" )
+			.find( "p" )
+			.html( "Hover..." );
+
+			$("#draggable").draggable({
+				grid: [50, 50]
+			});
+		},
+	});
+
+
+/*
+	$("#svg").addClass("ui-widget-header");
+	$("#redplayer1").addClass("ui-widget-content");
+
+	$("#redplayer1").draggable();
+
+	$("#svg").droppable({
+		over: function(event, ui) {
+			console.log(event);
+			console.log(ui);
+			$("#redplayer1").draggable({
+				grid: [
+					40, 40
+				],
+			});
+		},
+		out: function(event, ui) {
+			$("#redplayer1").draggable("option", "grid", false);
+		}
+	});
+
+//					$("#svg").width() / 10,
+//					$("#svg").width() / 10,
+
+//*/
 }
 
 function getPlayerPath(step) {

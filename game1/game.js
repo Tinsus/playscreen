@@ -717,19 +717,16 @@ function drawBoard() {
 				drop: function( event, ui ) {
 					$( this )
 					.addClass( "ui-state-highlight" )
-					.find( "p" )
 					.html( "Dropped!" );
 				},
 				over: function(event, ui) {
 					$( this )
 					.addClass( "ui-state-highlight" )
-					.find( "p" )
 					.html( "Hover..." );
 				},
 				out: function(event, ui) {
 					$( this )
 					.addClass( "ui-state-highlight" )
-					.find( "p" )
 					.html( "Drop here..." );
 				},
 			});
@@ -740,24 +737,6 @@ function drawBoard() {
 	$(".fieldspacer").width(step / 10 * 9);
 	$(".player svg").height(step / 10 * 9);
 	$(".player svg").width(step / 10 * 9);
-
-/*
-	for (i = 0; i < players.length; ++i) {
-		$("#board").append(`
-			<svg id="` + players[i][3] + `">
-			</svg>
-		`);
-
-		$("#" + players[i][3]).hide();
-
-
-
-	}
-//*/
-
-
-
-
 
 /*
 	$("#board").append(`

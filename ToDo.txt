@@ -26,4 +26,7 @@ https://stackoverflow.com/questions/11050916/jquery-ui-snapping-to-a-grid-within
 - S&S
 - Munschkin
 - Poker
-- Activity
+- Activity (Zeichnen, RL-Pantomime)
+- Tabu (Erklären mit ohne Tabu-Wörter)
+- Hangman
+- Cards Against Humanity (Decks mobbsen von https://azala.info/ - API angraben?)

@@ -562,104 +562,204 @@ function drawBoard() {
 				break;
 		}
 
-		circle.addClass(points[i][3]);
+//		circle.addClass(points[i][3]);
 	}
 
-	var points = [
-		[
-			0, 0,
-			"#f00",
-			"redplayer1",
-		], [
-			0, 1,
-			"#f00",
-			"redplayer2",
-		], [
-			1, 0,
-			"#f00",
-			"redplayer3",
-		], [
-			1, 1,
-			"#f00",
-			"redplayer4",
-		], [
-			0, 9,
+	var players = {
+		"0-9": [
 			"#00f",
 			"blueplayer1",
-		], [
-			0, 10,
+			1,
+		],
+		"0-10": [
 			"#00f",
 			"blueplayer2",
-		], [
-			1, 9,
+			1,
+		],
+		"1-9": [
 			"#00f",
 			"blueplayer3",
-		], [
-			1, 10,
+			1,
+		],
+		"1-10": [
 			"#00f",
 			"blueplayer4",
-		], [
-			9, 0,
+			1,
+		],
+		"0-0": [
+			"#f00",
+			"redplayer1",
+			2,
+		],
+		"0-1": [
+			"#f00",
+			"redplayer2",
+			2,
+		],
+		"1-0": [
+			"#f00",
+			"redplayer3",
+			2,
+		],
+		"1-1": [
+			"#f00",
+			"redplayer4",
+			2,
+		],
+		"9-0": [
 			"#0f0",
 			"greenplayer1",
-		], [
-			9, 1,
+			3,
+		],
+		"9-1": [
 			"#0f0",
 			"greenplayer2",
-		], [
-			10, 0,
+			3,
+		],
+		"10-0": [
 			"#0f0",
 			"greenplayer3",
-		], [
-			10, 1,
+			3,
+		],
+		"10-1": [
 			"#0f0",
 			"greenplayer4",
-		], [
-			9, 9,
+			3,
+		],
+		"9-9": [
 			"#ff0",
 			"yellowplayer1",
-		], [
-			9, 10,
+			4,
+		],
+		"9-10": [
 			"#ff0",
 			"yellowplayer2",
-		], [
-			10, 9,
+			4,
+		],
+		"10-9": [
 			"#ff0",
 			"yellowplayer3",
-		], [
-			10, 10,
+			4,
+		],
+		"10-10": [
 			"#ff0",
 			"yellowplayer4",
+			4,
 		],
-	];
+	};
 
 	var player = getPlayerPath(step);
 	var bbox = Snap.path.getBBox(player);
 	var height = $("#pagecontent").height();
 
-	for (i = 0; i < points.length; ++i) {
+	$("#board").append(`
+		<div style="width: 0; height: 0; position: absolut;">
+			<table id="fields">
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	`);
+
+	$("#fields").css("position", "relative");
+	$("#fields").css("left", parseFloat($("#svg").css("margin-left")) * 0.99);
+	$("#fields").css("top", $("#svg").height() * -1.02);
+
+	for (i = 0; i <= 10; ++i) {
+		$("#fields tbody").append(`
+			<tr>
+			</tr>
+		`);
+
+		for (j = 0; j <= 10; ++j) {
+			$("#fields tbody tr:last").append(`
+				<td>
+					<div id="field` + i + `-` + j + `" class="fieldspacer">
+						` + i + `-` + j + `
+					</div>
+				</td>
+			`);
+
+			if (players[i + "-" + j] != undefined) {
+				$("#player" + players[i + "-" + j][2]).append(`
+					<span id="` + players[i + "-" + j][1] + `" class="player">
+						<svg>
+						</svg>
+					</span>
+				`);
+
+				$("#" + players[i + "-" + j][1]).width(step);
+				$("#" + players[i + "-" + j][1]).height(step);
+
+				var rotation = players[i + "-" + j][2] - 1;
+
+				if (players[i + "-" + j][2]%2) {
+					rotation = players[i + "-" + j][2] + 1;
+				}
+
+				$("#" + players[i + "-" + j][1] + " svg").css("transform", "rotate(" + rotation * 90 + "deg)");
+
+				$("#" + players[i + "-" + j][1]).draggable();
+
+				var s = Snap("#" + players[i + "-" + j][1] + " svg");
+
+				var figure = s.path(player);
+
+				figure.attr({
+					fill: players[i + "-" + j][0],
+					stroke: "#888",
+					strokeWidth: 2,
+					transform: "t" + ($("#" + players[i + "-" + j][1]).width() - bbox.width) / 2 + "," + ($("#" + players[i + "-" + j][1]).height() - bbox.height) / 2,
+				});
+			}
+
+			$("#field" + i + "-" + j).droppable({
+				drop: function( event, ui ) {
+					$( this )
+					.addClass( "ui-state-highlight" )
+					.find( "p" )
+					.html( "Dropped!" );
+				},
+				over: function(event, ui) {
+					$( this )
+					.addClass( "ui-state-highlight" )
+					.find( "p" )
+					.html( "Hover..." );
+				},
+				out: function(event, ui) {
+					$( this )
+					.addClass( "ui-state-highlight" )
+					.find( "p" )
+					.html( "Drop here..." );
+				},
+			});
+		}
+	}
+
+	$(".fieldspacer").height(step / 10 * 9);
+	$(".fieldspacer").width(step / 10 * 9);
+	$(".player svg").height(step / 10 * 9);
+	$(".player svg").width(step / 10 * 9);
+
+/*
+	for (i = 0; i < players.length; ++i) {
 		$("#board").append(`
-			<svg id="` + points[i][3] + `" class="player">
+			<svg id="` + players[i][3] + `">
 			</svg>
 		`);
 
-		$("#" + points[i][3]).width(step);
-		$("#" + points[i][3]).height(step);
+		$("#" + players[i][3]).hide();
 
-		var s = Snap("#" + points[i][3]);
 
-		var figure = s.path(player);
 
-		figure.addClass(points[i][3]);
-
-		figure.attr({
-			fill: points[i][2],
-			stroke: "#888",
-			strokeWidth: 2,
-			transform: "t" + ($("#" + points[i][3]).width() - bbox.width) / 2 + "," + ($("#" + points[i][3]).height() - bbox.height) / 2,
-		});
 	}
+//*/
 
+
+
+
+
+/*
 	$("#board").append(`
 		<div id="draggable" class="ui-widget-content">
 		  <p>Drag me to my target</p>
@@ -689,9 +789,15 @@ function drawBoard() {
 			});
 		},
 		out: function(event, ui) {
+			$( this )
+			.addClass( "ui-state-highlight" )
+			.find( "p" )
+			.html( "Drop here..." );
+
 			$("#draggable").draggable("option", "grid", false);
 		},
 	});
+//*/
 
 /*
 // :(	https://bugs.jqueryui.com/ticket/4211	:(

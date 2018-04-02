@@ -1,3 +1,39 @@
+function prepareGame(game) {
+	$("#main").hide();
+	$(".gamedecs").hide();
+	$("#prepare").fadeIn();
+	$("#headline").html(GetLoca("GAME" + game));
+	$("#image").html(`
+		<img src="` + GetDomain() + `game` + game + `/logo.svg" alt="game ` + game + ` logo" style="width: 90%; max-height: 200px;"/>
+	`);
+	$("#description").html(GetLoca("GAME" + game + "_DESC"));
+
+	switch(parseInt(game)) {
+		case 1:
+			$("#num").html(0);
+			$("#between").show();
+			$("#total").html(4);
+			break;
+		case 2:
+			$("#num").html(0);
+			$("#between").hide();
+			$("#total").html(100);
+			$("#total").hide();
+			break;
+		default:
+			$("#counter").html(GetLoca("GAME_UNKNOWN"));
+
+			setTimeout("location.href='" + GetDomain() + "'", 5000);
+			return;
+	}
+
+	if ($("#id").html().length == 0) {
+		getNewGameID(game);
+	}
+
+	waitForPlayers();
+}
+
 function getGame() {
 	AjaxLoading(true);
 
@@ -55,39 +91,6 @@ function waitForGame(id) {
 	}).fail(function(jqXHR, msg) {
 		waitForGame(id);
 	});
-}
-
-function prepareGame(game) {
-	$("#main").hide();
-	$(".gamedecs").hide();
-
-	$("#prepare").fadeIn();
-
-	$("#headline").html(GetLoca("GAME" + game));
-
-	$("#image").html(`
-		<img src="` + GetDomain() + `game` + game + `/logo.svg" alt="game ` + game + ` logo" style="width: 90%; max-height: 200px;"/>
-	`);
-
-	$("#description").html(GetLoca("GAME" + game + "_DESC"));
-
-	switch(parseInt(game)) {
-		case 1:
-			$("#num").html(0);
-			$("#total").html(4);
-			break;
-		default:
-			$("#counter").html(GetLoca("GAME_UNKNOWN"));
-
-			setTimeout("location.href='" + GetDomain() + "'", 5000);
-			return;
-	}
-
-	if ($("#id").html().length == 0) {
-		getNewGameID(game);
-	}
-
-	waitForPlayers();
 }
 
 function getNewGameID(game) {

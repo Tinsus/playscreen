@@ -4,7 +4,7 @@
 		<b>{function="Loca::Get('CATCHPHRASE')"}</b>
 	</p>
 </div>
-{loop="array(1)"}
+{loop="array(1,2)"}
 <div class="padding-64{if='$counter%2==0'} w3-theme-l1{/if} gamedecs" onclick="prepareGame({$value})" style="cursor: pointer;">
 	<h1 class="w3-center w3-margin-bottom">
 		{function="Loca::Get('GAME'.$value)"}
@@ -31,7 +31,7 @@
 	<div class="w3-container w3-theme-l4" id="counter">
 		<i class="fa fa-spinner fa-pulse w3-jumbo w3-padding" id="wait"></i>
 		<p class="w3-xlarge">
-			<b id="num">0</b>/<span id="total">0</span>
+			<b id="num">0</b><span id="between">/</span><span id="total">0</span>
 		</p>
 		<span class="w3-medium">{function='Loca::Get("GAMEID")'}: <span id="id"></span></span>
 	</div>

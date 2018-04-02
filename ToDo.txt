@@ -1,22 +1,18 @@
 ### Stuff to do ###
 
-- improve dropzone-space
-- remove empty space caused by player
-- playerposition setup bevor figures placed
+#Game1 Mensch ärger dich nicht:
+- rework/rebuild: delete placing table and jquery-ui stuff. switch to http://snapsvg.io/docs/#Element.drag to place players inside svg and handle them there
+- playerposition setup before figures placed
 
-- matchmakting entern name button buttons: grey if invalid + enter on textfield driven
-
+#General
+- matchmakting enter name button: grey if invalid + enter on textfield driven
 - rework matchmaking: only one file for matchmaking, using php classes and AJAX
 - index_player: only see active sessions and join with single touch
 - index_server: see old saved games and players on it
 - setup.php (server: setup game specific settings + wait for players) and custom.php (player: setup avatar or similar stuff) still missing
 - Reroute if game has no active server
-- Interrupt if player gets inactive
+- Interrupt if player gets inactive, detect disconnected players and allow reconnect
 - player-position save and shown on edge of the server-screen
-- https://jqueryui.com/droppable/
-- php classes for stuff like Player (::New ::Get -> link session to player-id)
-- detect disconnected players and allow reconnect
-- allow load old games to reconnect players
 - version.txt could may use git describe --tags
 
 ### hardware ###
@@ -34,3 +30,9 @@
 - Tabu (Erklären mit ohne Tabu-Wörter)
 - Hangman
 - Cards Against Humanity (Decks mobbsen von https://azala.info/ - API angraben?)
+- Stadt Land Fluss
+
+### Game-List ###
+
+1 - Mensch ärger dich nicht
+2 - Cards Against Humanity

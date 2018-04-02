@@ -35,7 +35,7 @@ function setupGame() {
 				</td>
 			</tr>
 		</table>
-		`);
+	`);
 
 	setTimeout(function() {
 		var height = $("#pagecontent").height();
@@ -648,7 +648,7 @@ function drawBoard() {
 		],
 	};
 
-	var player = getPlayerPath(step);
+	var player = getPlayerPath(step * 0.8);
 	var bbox = Snap.path.getBBox(player);
 	var height = $("#pagecontent").height();
 
@@ -662,7 +662,7 @@ function drawBoard() {
 	`);
 
 	$("#fields").css("position", "relative");
-	$("#fields").css("left", parseFloat($("#svg").css("margin-left")) * 0.99 - 5);
+	$("#fields").css("left", parseFloat($("#svg").css("margin-left")) * 0.99 - 2);
 	$("#fields").css("top", $("#svg").height() * -1.01 - 5);
 
 	for (i = 0; i <= 10; ++i) {
@@ -688,8 +688,8 @@ function drawBoard() {
 					</span>
 				`);
 
-				$("#" + players[i + "-" + j][1]).width(step);
-				$("#" + players[i + "-" + j][1]).height(step);
+				$("#" + players[i + "-" + j][1]).width(step * 0.8);
+				$("#" + players[i + "-" + j][1]).height(step * 0.8);
 
 				var rotation = players[i + "-" + j][2] - 1;
 
@@ -733,10 +733,10 @@ function drawBoard() {
 		}
 	}
 
-	$(".fieldspacer").height($("#svg").height() / 11.6);
-	$(".fieldspacer").width($("#svg").width() / 11.6);
-	$(".player svg").height($("#svg").height() / 11.6 * 0.9);
-	$(".player svg").width($("#svg").width() / 11.6 * 0.9);
+	$(".fieldspacer").height(step / 11 * 10);
+	$(".fieldspacer").width(step / 11 * 10);
+	$(".player svg").height(step / 11 * 8);
+	$(".player svg").width(step / 11 * 8);
 
 /*
 	$("#board").append(`

@@ -662,8 +662,8 @@ function drawBoard() {
 	`);
 
 	$("#fields").css("position", "relative");
-	$("#fields").css("left", parseFloat($("#svg").css("margin-left")) * 0.99);
-	$("#fields").css("top", $("#svg").height() * -1.02);
+	$("#fields").css("left", parseFloat($("#svg").css("margin-left")) * 0.99 - 5);
+	$("#fields").css("top", $("#svg").height() * -1.01 - 5);
 
 	for (i = 0; i <= 10; ++i) {
 		$("#fields tbody").append(`
@@ -733,10 +733,10 @@ function drawBoard() {
 		}
 	}
 
-	$(".fieldspacer").height(step / 10 * 9);
-	$(".fieldspacer").width(step / 10 * 9);
-	$(".player svg").height(step / 10 * 9);
-	$(".player svg").width(step / 10 * 9);
+	$(".fieldspacer").height($("#svg").height() / 11.6);
+	$(".fieldspacer").width($("#svg").width() / 11.6);
+	$(".player svg").height($("#svg").height() / 11.6 * 0.9);
+	$(".player svg").width($("#svg").width() / 11.6 * 0.9);
 
 /*
 	$("#board").append(`

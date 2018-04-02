@@ -1,6 +1,10 @@
 ### Stuff to do ###
 
-https://stackoverflow.com/questions/11050916/jquery-ui-snapping-to-a-grid-within-an-element
+- improve dropzone-space
+- remove empty space caused by player
+- playerposition setup bevor figures placed
+
+- matchmakting entern name button buttons: grey if invalid + enter on textfield driven
 
 - rework matchmaking: only one file for matchmaking, using php classes and AJAX
 - index_player: only see active sessions and join with single touch

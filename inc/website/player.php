@@ -25,4 +25,23 @@ class Player {
 			":player" => serialize($player),
 		));
 	}
+
+	static function GetId($gameid) {
+		$db = DB::Save()->execute('
+			SELECT
+				player
+			FROM
+				savegames
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => $gameid,
+		));
+
+		$db = $db->fetch();
+
+		return array_search(session_id(), unserialize($db["player"]));
+	}
 }

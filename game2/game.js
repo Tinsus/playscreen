@@ -27,7 +27,6 @@ function setupGame() {
 			operation: "getGameData",
 			id: getUrlVar("id"),
 		}).done(function(json) {
-
 			$.each(json.playerdata, function(k, v) {
 				$("#game table").append(`
 					<tr>
@@ -41,9 +40,9 @@ function setupGame() {
 				`);
 			});
 
-			AjaxLoading(false);
+			getQuestion();
 
-			newQuestion();
+			AjaxLoading(false);
 		}).fail(function(jqXHR, msg) {
 			AjaxLoading(2);
 
@@ -71,30 +70,9 @@ function newQuestion() {
 		operation: "newQuestion",
 		id: getUrlVar("id"),
 	}).done(function(json) {
-		console.log(json);
-
-		$("#question").html(`
-			<div class="w3-third">
-				&nbsp;
-			</div>
-			<div class="w3-third w3-card w3-black w3-container w3-xlarge">
-				<p style="min-height: 250px">
-					` + json["text"] + `
-				</p>
-				<p class="w3-tiny w3-text-grey">
-					` + json["id"] + `
-					` + json["box"] + `
-					` + json["vote"] + `
-					<b class="w3-right w3-medium w3-text-white">
-						` + json["pick"] + `
-					</b>
-				</p>
-			</div>
-		`);
+		getQuestion();
 
 		AjaxLoading(false);
-
-		fillPlayer();
 	}).fail(function(jqXHR, msg) {
 		AjaxLoading(2);
 
@@ -102,45 +80,90 @@ function newQuestion() {
 	});
 }
 
-function playerAddCards(total = 10) {
-	if ($("#cards td").length < total) {
-		$.postJSON(GetDomain() + "game2/ajax.php", {
-			operation: "addCards",
-			id: getUrlVar("id"),
-			sum: total - $("#cards td").length,
-		}).done(function(json) {
-			console.log(json);
+function getQuestion() {
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "getQuestion",
+		id: getUrlVar("id"),
+	}).done(function(json) {
+		console.log(json);
 
-			$.each(json, function(k, v) {
-				$("#cards").append(`
-					<td>
-						<div style="width: 200px" class="w3-card w3-white w3-container w3-medium">
-							<p style="min-height: 175px">
-								` + v["text"] + `
-							</p>
-							<p class="w3-tiny w3-text-grey">
-								` + v["id"] + `
-								` + v["box"] + `
-								` + v["vote"] + `
-							</p>
-						</div>
-					</td>
-				`);
-			});
+		if (!json) {
+			newQuestion();
+		} else {
+			$("#question").html(`
+				<div class="w3-third">
+					&nbsp;
+				</div>
+				<div class="w3-third w3-card w3-black w3-container w3-xlarge">
+					<p style="min-height: 250px">
+						` + json["text"] + `
+					</p>
+					<p class="w3-tiny w3-text-grey">
+						` + json["id"] + `
+						` + json["box"] + `
+						` + json["vote"] + `
+						<b class="w3-right w3-medium w3-text-white">
+							` + json["pick"] + `
+						</b>
+					</p>
+				</div>
+			`);
+		}
 
-			AjaxLoading(false);
-		}).fail(function(jqXHR, msg) {
-			AjaxLoading(2);
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
 
-			playerAddCards();
-		});
+		newQuestion();
+	});
+}
 
-	}
+function playerAddCards() {
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "addCards",
+		id: getUrlVar("id"),
+	}).done(function(json) {
+		playerOwnCards();
 
-	playerOwnCards();
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		playerAddCards();
+	});
 }
 
 function playerOwnCards() {
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "ownCards",
+		id: getUrlVar("id"),
+	}).done(function(json) {
+		console.log(json);
+
+		$.each(json, function(k, v) {
+			$("#cards").append(`
+				<td>
+					<div style="width: 200px" class="w3-card w3-white w3-container w3-medium">
+						<p style="min-height: 175px">
+							` + v["text"] + `
+						</p>
+						<p class="w3-tiny w3-text-grey">
+							` + v["id"] + `
+							` + v["box"] + `
+							` + v["vote"] + `
+						</p>
+					</div>
+				</td>
+			`);
+		});
+
+
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		playerOwnCards();
+	});
 
 }
 

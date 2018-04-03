@@ -22,7 +22,7 @@
 			}
 
 			function IsServer() {
-				return {function="Server::IsServer() == true"};
+				return {function="intval(Server::IsServer())"} == true;
 			}
 		</script>
 	</head>

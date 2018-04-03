@@ -1,10 +1,10 @@
 <div id="game">
 </div>
 <script type="text/javascript">
-	{loop='array("WAITFOROTHERS")'}
+	{loop='array("WAITFOROTHERS","PLAYER","WINS")'}
 	SetLoca("{$value}", "{function='Loca::Get($value)'}");
 	{/loop}
-	
+
 	var game = {function="json_encode($game, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK)"};
 	setupGame();
 </script>

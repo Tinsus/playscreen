@@ -4,6 +4,37 @@ $root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 require_once($root."inc/.module.php");
 
 switch(Param::Get("operation")) {
+	case "voteCard":
+		$db = DB::Game()->execute('
+			SELECT
+				vote
+			FROM
+				game2
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		DB::Game()->execute("
+			UPDATE
+				game2
+			SET
+				vote = :vote
+			WHERE
+				id = :id
+		", array(
+			":id" => Param::Get("id"),
+			":vote" => $db["vote"] + Param::Get("value"),
+		));
+
+		Page::SendJSON(true);
+
+		break;
 	case "newQuestion":
 		$db = DB::Save()->execute('
 			SELECT

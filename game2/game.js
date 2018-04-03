@@ -8,10 +8,10 @@ function setupGame() {
 			<table class="w3-table-all">
 				<tr>
 					<th>
-						Spieler:
+						` + GetLoca("PLAYER") + `:
 					</th>
 					<th>
-						Punkte:
+						` + GetLoca("WINS") + `:
 					</th>
 				</tr>
 			</table>
@@ -52,16 +52,18 @@ function setupGame() {
 		$("#game").addClass("w3-container");
 
 		$("#game").html(`
-			<div class="w3-container w3-responsive" style="height: 100%">
+			<div id="asked" class="w3-container">
+			</div>
+			<div class="w3-container w3-responsive">
 				<table class="w3-table-all">
 					<tr id="cards">
 					</tr>
 				</table>
-
 			</div>
 		`);
 
 		playerAddCards();
+		getQuestion();
 	}
 }
 
@@ -85,29 +87,51 @@ function getQuestion() {
 		operation: "getQuestion",
 		id: getUrlVar("id"),
 	}).done(function(json) {
-		console.log(json);
-
 		if (!json) {
-			newQuestion();
+			if (IsServer()) {
+				newQuestion();
+			} else {
+				getQuestion();
+			}
 		} else {
-			$("#question").html(`
-				<div class="w3-third">
-					&nbsp;
-				</div>
-				<div class="w3-third w3-card w3-black w3-container w3-xlarge">
-					<p style="min-height: 250px">
-						` + json["text"] + `
-					</p>
-					<p class="w3-tiny w3-text-grey">
-						` + json["id"] + `
-						` + json["box"] + `
-						` + json["vote"] + `
-						<b class="w3-right w3-medium w3-text-white">
-							` + json["pick"] + `
-						</b>
-					</p>
-				</div>
-			`);
+			if (IsServer()) {
+				$("#question").html(`
+					<div class="w3-third">
+						&nbsp;
+					</div>
+					<div class="w3-third w3-card w3-black w3-container w3-xlarge">
+						<p style="min-height: 250px">
+							` + json["text"] + `
+						</p>
+						<p class="w3-tiny w3-text-grey">
+							` + json["id"] + `
+							` + json["box"] + `
+							` + json["vote"] + `
+							<b class="w3-right w3-medium w3-text-white">
+								` + json["pick"] + `
+							</b>
+						</p>
+					</div>
+				`);
+			} else {
+				$("#asked").html(`
+					<div class="w3-medium w3-margin">
+						<div class="w3-card w3-black w3-container">
+							<p class="w3-left w3-container">
+								` + json["text"] + `
+							</p>
+							<div class="w3-right w3-container">
+								<button id="upvote` + json["id"] + `" class="w3-btn w3-black w3-text-grey" onClick="vote(1, ` + json["id"] + `)">
+									<i class="fa fa-thumbs-o-up fa-1"></i>
+								</button>
+								<button id="downvote` + json["id"] + `" class="w3-btn w3-black w3-text-grey" onClick="vote(-1, ` + json["id"] + `)">
+									<i class="fa fa-thumbs-o-down fa-1"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				`);
+			}
 		}
 
 		AjaxLoading(false);
@@ -118,7 +142,36 @@ function getQuestion() {
 	});
 }
 
+function vote(value, id) {
+	$("#upvote" + id).addClass("w3-disabled");
+	$("#downvote" + id).addClass("w3-disabled");
+	$("#upvote").attr("disabled", true);
+	$("#downvote").attr("disabled", true);
+
+	if (value > 0) {
+		$("#upvote" + id).removeClass("w3-text-grey");
+	} else {
+		$("#downvote" + id).removeClass("w3-text-grey");
+	}
+
+	AjaxLoading(true);
+
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "voteCard",
+		id: id,
+		value: value,
+	}).done(function(json) {
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		playerAddCards();
+	});
+}
+
 function playerAddCards() {
+	AjaxLoading(true);
+
 	$.postJSON(GetDomain() + "game2/ajax.php", {
 		operation: "addCards",
 		id: getUrlVar("id"),
@@ -134,12 +187,12 @@ function playerAddCards() {
 }
 
 function playerOwnCards() {
+	AjaxLoading(true);
+
 	$.postJSON(GetDomain() + "game2/ajax.php", {
 		operation: "ownCards",
 		id: getUrlVar("id"),
 	}).done(function(json) {
-		console.log(json);
-
 		$.each(json, function(k, v) {
 			$("#cards").append(`
 				<td>
@@ -153,10 +206,18 @@ function playerOwnCards() {
 							` + v["vote"] + `
 						</p>
 					</div>
+
+					<p class="w3-container w3-center w3-tiny">
+						<button id="upvote` + json["id"] + `" class="w3-btn w3-pale-green w3-text-grey" onClick="vote(1, ` + json["id"] + `)">
+							<i class="fa fa-thumbs-o-up fa-1"></i>
+						</button>
+						<button id="downvote` + json["id"] + `" class="w3-btn w3-pale-red w3-text-grey" onClick="vote(-1, ` + json["id"] + `)">
+							<i class="fa fa-thumbs-o-down fa-1"></i>
+						</button>
+					</p>
 				</td>
 			`);
 		});
-
 
 		AjaxLoading(false);
 	}).fail(function(jqXHR, msg) {
@@ -164,15 +225,6 @@ function playerOwnCards() {
 
 		playerOwnCards();
 	});
-
-}
-
-function choosePlayer() {
-
-}
-
-function downvoteCard(id) {
-
 }
 
 function finishRound(id) {

@@ -1,6 +1,8 @@
 ### Stuff to do ###
 
 #Game 2 Cards Against Humanity
+-fix error on hardware...
+- server: js tastatur für eingabefehlder
 - bug: server zeigt nur erste auswahl, nicht alle bei mehrfachwahl
 - bug: markierung bei mehrfahcwahl bei player verursacht falsches coding (pick-object loopen für green, ansonsten pale-green?)
 - picked disconnect and reconnect with correct picking state missing

@@ -4,6 +4,84 @@ $root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 require_once($root."inc/.module.php");
 
 switch(Param::Get("operation")) {
+	case "getPicks":
+		$db = DB::Save()->execute('
+			SELECT
+				gamedata
+			FROM
+				savegames
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		$data = unserialize($db["gamedata"]);
+
+		$picks = array();
+
+		foreach ($data["picks"] as $k => $v) {
+			$db = DB::Game()->execute('
+				SELECT
+					*
+				FROM
+					game2
+				WHERE
+					id IN ('.implode(",", array_filter($v)).')
+			', array(
+			));
+
+			$picks[$k] = $db->fetchAll();
+		}
+
+		Page::SendJSON($picks);
+
+		break;
+	case "state":
+		$db = DB::Save()->execute('
+			SELECT
+				*
+			FROM
+				savegames
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		if ($db["gamedata"] == NULL) {
+			Page::SendJSON("newQuestion");
+		}
+
+		$db["gamedata"] = unserialize($db["gamedata"]);
+
+		if (!array_key_exists("currentQuestion", $db["gamedata"]) or strlen($db["gamedata"]["currentQuestion"]) == 0) {
+			Page::SendJSON("newQuestion");
+		}
+
+		$db["playerdata"] = unserialize($db["playerdata"]);
+
+		foreach ($db["playerdata"] as $k => $v) {
+			if (!array_key_exists("cards", $v)) {
+				Page::SendJSON("getCards");
+			}
+		}
+
+		if (array_key_exists("picks", $db["gamedata"]) or count($db["gamedata"]["picks"]) != 0) {
+			Page::SendJSON("picking");
+		}
+
+		Page::SendJSON(false);
+
+		break;
 	case "voteCard":
 		$db = DB::Game()->execute('
 			SELECT
@@ -120,6 +198,53 @@ switch(Param::Get("operation")) {
 		Page::SendJSON($db->fetch());
 
 		break;
+	case "trash":
+		$db = DB::Save()->execute('
+			SELECT
+				playerdata
+			FROM
+				savegames
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => Param::Get("gameid"),
+		));
+
+		$db = $db->fetch();
+
+		$all = unserialize($db["playerdata"]);
+
+		$data = $all[Player::GetId(Param::Get("gameid"))];
+
+		$new = array();
+
+		foreach ($data["cards"] as $k => $v) {
+			if ($v != Param::Get("id")) {
+				$new[] = $v;
+			}
+		}
+
+		$data["cards"] = $new;
+
+		$all[Player::GetId(Param::Get("gameid"))] = $data;
+
+		DB::Save()->execute("
+			UPDATE
+				savegames
+			SET
+				playerdata = :playerdata
+			WHERE
+				id = :id
+		", array(
+			":id" => Param::Get("gameid"),
+			":playerdata" => serialize($all),
+		));
+
+		Page::SendJSON(count($data["cards"]));
+
+		break;
 	case "addCards":
 		$db = DB::Save()->execute('
 			SELECT
@@ -203,7 +328,7 @@ switch(Param::Get("operation")) {
 
 		$data = $all[Player::GetId(Param::Get("id"))];
 
-		if (!array_key_exists("cards", $data)) {
+		if (!array_key_exists("cards", $data) or count($data["cards"]) == 0) {
 			Page::SendJSON(false);
 		}
 
@@ -218,6 +343,71 @@ switch(Param::Get("operation")) {
 		));
 
 		Page::SendJSON($db->fetchAll());
+
+		break;
+	case "submitPick":
+		$pick = array(
+			Param::Get("pick0"),
+			Param::Get("pick1"),
+			Param::Get("pick2"),
+			Param::Get("pick3"),
+			Param::Get("pick4"),
+		);
+
+		$db = DB::Save()->execute('
+			SELECT
+				playerdata, gamedata
+			FROM
+				savegames
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		$all = unserialize($db["playerdata"]);
+
+		$data = $all[Player::GetId(Param::Get("id"))];
+
+		$new = array();
+
+		foreach ($data["cards"] as $k => $v) {
+			if (!in_array($v, $pick)) {
+				$new[] = $v;
+			}
+		}
+
+		$data["cards"] = $new;
+
+		$all[Player::GetId(Param::Get("id"))] = $data;
+
+		$db = unserialize($db["gamedata"]);
+
+		if (!array_key_exists("picks", $db)) {
+			$db["picks"] = array();
+		}
+
+		$db["picks"][Player::GetId(Param::Get("id"))] = $pick;
+
+		DB::Save()->execute("
+			UPDATE
+				savegames
+			SET
+				playerdata = :playerdata,
+				gamedata = :gamedata
+			WHERE
+				id = :id
+		", array(
+			":id" => Param::Get("id"),
+			":playerdata" => serialize($all),
+			":gamedata" => serialize($db),
+		));
+
+		Page::SendJSON(count($data["cards"]));
 
 		break;
 }

@@ -5,7 +5,7 @@ function setupGame() {
 		$("#game").addClass("w3-container");
 
 		$("#game").html(`
-			<table class="w3-table-all">
+			<table id="scores" class="w3-table-all">
 				<tr>
 					<th>
 						` + GetLoca("PLAYER") + `:
@@ -16,10 +16,10 @@ function setupGame() {
 				</tr>
 			</table>
 			<div id="question" class="w3-container w3-padding">
-				Frage
 			</div>
-			<div id="answers" class="w3-container w3-padding">
-				Antworten
+			<div class="w3-container w3-padding">
+				<table id="answers" class="w3-table-all w3-responsive">
+				</table>
 			</div>
 		`);
 
@@ -28,19 +28,23 @@ function setupGame() {
 			id: getUrlVar("id"),
 		}).done(function(json) {
 			$.each(json.playerdata, function(k, v) {
-				$("#game table").append(`
+				var wins = v["wins"];
+
+				if (wins == undefined) {
+					wins = 0;
+				}
+
+				$("#scores").append(`
 					<tr>
-						<td class="w3-text-` + v.tag + `">
-							` + v.name + `
+						<td id="name` + k + `" class="w3-text-` + v.tag + `">
+							` + v["name"] + `
 						</td>
-						<td id="points">
-							0
+						<td id="points` + k + `">
+							` + wins + `
 						</td>
 					</tr>
 				`);
 			});
-
-			getQuestion();
 
 			AjaxLoading(false);
 		}).fail(function(jqXHR, msg) {
@@ -61,10 +65,9 @@ function setupGame() {
 				</table>
 			</div>
 		`);
-
-		playerAddCards();
-		getQuestion();
 	}
+
+	state();
 }
 
 function newQuestion() {
@@ -87,13 +90,7 @@ function getQuestion() {
 		operation: "getQuestion",
 		id: getUrlVar("id"),
 	}).done(function(json) {
-		if (!json) {
-			if (IsServer()) {
-				newQuestion();
-			} else {
-				getQuestion();
-			}
-		} else {
+		if (json) {
 			if (IsServer()) {
 				$("#question").html(`
 					<div class="w3-third">
@@ -129,6 +126,9 @@ function getQuestion() {
 								</button>
 							</div>
 						</div>
+						<span id="num2pick" style="display: none;">
+							` + json["pick"] + `
+						</span>
 					</div>
 				`);
 			}
@@ -138,7 +138,7 @@ function getQuestion() {
 	}).fail(function(jqXHR, msg) {
 		AjaxLoading(2);
 
-		newQuestion();
+		getQuestion();
 	});
 }
 
@@ -168,28 +168,28 @@ function vote(value, id) {
 	}).fail(function(jqXHR, msg) {
 		AjaxLoading(2);
 
-		playerAddCards();
+		vote(value, id);
 	});
 }
 
-function playerAddCards() {
+function addCards() {
 	AjaxLoading(true);
 
 	$.postJSON(GetDomain() + "game2/ajax.php", {
 		operation: "addCards",
 		id: getUrlVar("id"),
 	}).done(function(json) {
-		playerOwnCards();
+		ownCards();
 
 		AjaxLoading(false);
 	}).fail(function(jqXHR, msg) {
 		AjaxLoading(2);
 
-		playerAddCards();
+		addCards();
 	});
 }
 
-function playerOwnCards() {
+function ownCards() {
 	AjaxLoading(true);
 
 	$("#cards").html("");
@@ -212,33 +212,33 @@ function playerOwnCards() {
 						</p>
 					</div>
 					<p class="w3-container w3-center picks" style="display: none; width: 200px">
-						<button id="pick0-` + json["id"] + `" class="w3-btn w3-green pick` + json["id"] + ` pickall pick0" onClick="pick(0, ` + json["id"] + `)" style="width: 20%">
+						<button id="pick0-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick0" onClick="pick(0, ` + v["id"] + `)" style="width: 20%">
 							` + GetLoca("PICK") + `
 						</button>
-						<button id="pick1-` + json["id"] + `" class="w3-btn w3-green pick` + json["id"] + ` pickall pick1" onClick="pick(1, ` + json["id"] + `)" style="width: 20%">
-							` + GetLoca("PICK") + ` 1
+						<button id="pick1-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick1" onClick="pick(0, ` + v["id"] + `)" style="width: 20%">
+							1
 						</button>
-						<button id="pick2-` + json["id"] + `" class="w3-btn w3-green pick` + json["id"] + ` pickall pick2" onClick="pick(2, ` + json["id"] + `)" style="width: 20%">
-							` + GetLoca("PICK") + ` 2
+						<button id="pick2-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick2" onClick="pick(1, ` + v["id"] + `)" style="width: 20%">
+							2
 						</button>
-						<button id="pick3-` + json["id"] + `" class="w3-btn w3-green pick` + json["id"] + ` pickall pick3" onClick="pick(3, ` + json["id"] + `)" style="width: 20%">
-							` + GetLoca("PICK") + ` 3
+						<button id="pick3-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick3" onClick="pick(2, ` + v["id"] + `)" style="width: 20%">
+							3
 						</button>
-						<button id="pick4-` + json["id"] + `" class="w3-btn w3-green pick` + json["id"] + ` pickall pick4" onClick="pick(4, ` + json["id"] + `)" style="width: 20%">
-							` + GetLoca("PICK") + ` 4
+						<button id="pick4-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick4" onClick="pick(3, ` + v["id"] + `)" style="width: 20%">
+							4
 						</button>
-						<button id="pick5-` + json["id"] + `" class="w3-btn w3-green pick` + json["id"] + ` pickall pick5" onClick="pick(5, ` + json["id"] + `)" style="width: 20%">
-							` + GetLoca("PICK") + ` 5
+						<button id="pick5-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick5" onClick="pick(4, ` + v["id"] + `)" style="width: 20%">
+							5
 						</button>
 					</p>
 					<p class="w3-container w3-center w3-tiny" style="width: 200px">
-						<button id="upvote` + json["id"] + `" class="w3-btn w3-pale-green w3-text-grey" onClick="vote(1, ` + json["id"] + `)">
+						<button id="upvote` + v["id"] + `" class="w3-btn w3-pale-green w3-text-grey upvote" onClick="vote(1, ` + v["id"] + `)">
 							<i class="fa fa-thumbs-o-up"></i>
 						</button>
-						<button id="downvote` + json["id"] + `" class="w3-btn w3-pale-red w3-text-grey" onClick="vote(-1, ` + json["id"] + `)">
+						<button id="downvote` + v["id"] + `" class="w3-btn w3-pale-red w3-text-grey downvote" onClick="vote(-1, ` + v["id"] + `)">
 							<i class="fa fa-thumbs-o-down"></i>
 						</button>
-						<button id="trash` + json["id"] + `" class="w3-btn w3-text-red w3-medium" onClick="trash(` + json["id"] + `)">
+						<button id="trash` + v["id"] + `" class="w3-btn w3-text-red w3-medium trash" onClick="trash(` + v["id"] + `)">
 							<i class="fa fa-trash-o"></i>
 						</button>
 					</p>
@@ -250,10 +250,215 @@ function playerOwnCards() {
 	}).fail(function(jqXHR, msg) {
 		AjaxLoading(2);
 
-		playerOwnCards();
+		ownCards();
 	});
 }
 
-function finishRound(id) {
+function trash(id) {
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "trash",
+		gameid: getUrlVar("id"),
+		id: id,
+	}).done(function(json) {
+		$("#card" + id).remove();
+	}).fail(function(jqXHR, msg) {
+		trash(id);
+	});
+}
+
+function state() {
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "state",
+		id: getUrlVar("id"),
+	}).done(function(json) {
+		switch (json) {
+			case "newQuestion":
+				if (IsServer()) {
+					newQuestion();
+				}
+
+				break;
+			case "getCards":
+				if (!IsServer()) {
+					addCards();
+				}
+
+				break;
+			case "picking":
+				if (IsServer()) {
+					getPicks();
+
+					break;
+				}
+			default:
+				if (!IsServer()) {
+					if (picks.length == 0) {
+						if ($("#asked").html().trim().length == 0) {
+							getQuestion();
+
+							break;
+						}
+
+						if ($("#cards").html().trim().length == 0) {
+							ownCards();
+
+							break;
+						}
+
+						if (!$(".picks").is(":visible")) {
+							$(".picks").show();
+							$(".pickall").hide();
+
+							switch (parseInt($("#num2pick").html())) {
+								case 5:
+									$(".pick5").show();
+								case 4:
+									$(".pick4").show();
+								case 3:
+									$(".pick3").show();
+								case 2:
+									$(".pick2").show();
+									$(".pick1").show();
+
+									break;
+								case 1:
+									$(".pick0").show();
+
+									break;
+							}
+
+							$(".pickall").css("width", (100 / parseInt($("#num2pick").html())) + "%")
+
+							break;
+						}
+					}
+				} else {
+					if ($("#question").html().trim().length == 0) {
+						getQuestion();
+
+						break;
+					}
+				}
+
+				console.log(json);
+		}
+
+		if (IsServer()) {
+			setTimeout("state()", 1000);
+		} else {
+			setTimeout("state()", 500);
+		}
+	}).fail(function(jqXHR, msg) {
+		state();
+	});
+}
+
+var picks = [];
+
+function pick(n, id) {
+	$("#trash" + id).addClass("w3-disabled");
+	$("#trash" + id).attr("disabled", true);
+	$("#downvote" + id).addClass("w3-disabled");
+	$("#downvote" + id).attr("disabled", true);
+
+	picks[n] = id;
+
+	$(".pick" + id).removeClass("w3-green");
+	$(".pick" + id).addClass("w3-pale-green");
+
+	$("#pick" + id + "-" + n).removeClass("w3-pale-green");
+	$("#pick" + id + "-" + n).addClass("w3-green");
+
+
+	if (picks.length >= parseInt($("#num2pick").html())) {
+		$(".pickall").addClass("w3-disabled");
+		$(".pickall").attr("disabled", true);
+
+		$(".pickall").removeClass("w3-green");
+		$(".pickall").addClass("w3-pale-green");
+
+		$.each(picks, function(k, v) {
+			$("#pick" + k + "-" + v).removeClass("w3-pale-green");
+			$("#pick" + k + "-" + v).addClass("w3-green");
+		});
+
+		submitPick();
+	}
+}
+
+function submitPick() {
+	AjaxLoading(true);
+
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "submitPick",
+		id: getUrlVar("id"),
+		pick0: picks[0],
+		pick1: picks[1],
+		pick2: picks[2],
+		pick3: picks[3],
+		pick4: picks[4],
+	}).done(function(json) {
+		//addCards();
+
+		//picks = [];
+		//$("#asked").html("");
+
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		submitPick();
+	});
+}
+
+function getPicks() {
+	$("#answers").html("");
+
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "getPicks",
+		id: getUrlVar("id"),
+	}).done(function(json) {
+		$.each(json, function(k, v) {
+			var html = `
+				<tr id="from` + k + `">
+				</tr>
+			`;
+
+			if (Math.random() < 0.5) {
+				$("#answers").prepend(html);
+			} else {
+				$("#answers").append(html);
+			}
+
+			$.each(v, function(k2, v2) {
+				$("#from" + k).append(`
+					<td>
+						<div class="w3-card w3-white w3-container w3-xlarge">
+							<p style="min-height: 250px">
+								` + v2["text"] + `
+							</p>
+							<p class="w3-tiny w3-text-grey" style="display: none;">
+								` + v2["id"] + `
+								` + v2["box"] + `
+								` + v2["vote"] + `
+								<b class="w3-right w3-medium w3-text-white">
+									` + v2["pick"] + `
+								</b>
+							</p>
+						</div>
+					</td>
+				`);
+			});
+		});
+
+
+		//addCards();
+
+		//picks = [];
+		//$("#asked").html("");
+
+	}).fail(function(jqXHR, msg) {
+		getPicks();
+	});
 
 }

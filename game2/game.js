@@ -373,6 +373,15 @@ function state() {
 var picks = [];
 
 function pick(n, id) {
+	console.log(n)
+	console.log(id)
+
+	var m = n;
+
+	if (parseInt($("#num2pick").html()) != 1) {
+		m--;
+	}
+
 	$("#trash" + id).addClass("w3-disabled");
 	$("#trash" + id).attr("disabled", true);
 	$("#downvote" + id).addClass("w3-disabled");
@@ -383,8 +392,11 @@ function pick(n, id) {
 	$(".pick" + id).removeClass("w3-green");
 	$(".pick" + id).addClass("w3-pale-green");
 
-	$("#pick" + id + "-" + n).removeClass("w3-pale-green");
-	$("#pick" + id + "-" + n).addClass("w3-green");
+	$(".pick" + m).removeClass("w3-green");
+	$(".pick" + m).addClass("w3-pale-green");
+
+	$("#pick" + id + "-" + m).removeClass("w3-pale-green");
+	$("#pick" + id + "-" + m).addClass("w3-green");
 
 
 	if (picks.length >= parseInt($("#num2pick").html())) {
@@ -415,11 +427,6 @@ function submitPick() {
 		pick3: picks[3],
 		pick4: picks[4],
 	}).done(function(json) {
-		//addCards();
-
-		//picks = [];
-		//$("#asked").html("");
-
 		AjaxLoading(false);
 	}).fail(function(jqXHR, msg) {
 		AjaxLoading(2);

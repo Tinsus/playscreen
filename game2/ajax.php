@@ -50,12 +50,11 @@ switch(Param::Get("operation")) {
 		));
 
 		$db = $db->fetch();
-
 		$all = unserialize($db["gamedata"]);
 
 		$db = DB::Game()->execute('
 			SELECT
-				*
+				id
 			FROM
 				game2
 			WHERE
@@ -69,7 +68,9 @@ switch(Param::Get("operation")) {
 		', array(
 		));
 
-		$all["currentQuestion"] = $db->fetch();
+		$db = $db->fetch();
+
+		$all["currentQuestion"] = $db["id"];
 
 		DB::Save()->execute("
 			UPDATE
@@ -101,14 +102,22 @@ switch(Param::Get("operation")) {
 		));
 
 		$db = $db->fetch();
+		$db = unserialize($db["gamedata"]);
 
-		if ($db === false) {
-			Page::SendJSON(false);
-		}
+		$db = DB::Game()->execute('
+			SELECT
+				*
+			FROM
+				game2
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => $db["currentQuestion"],
+		));
 
-		$all = unserialize($db["gamedata"]);
-
-		Page::SendJSON($all["currentQuestion"]);
+		Page::SendJSON($db->fetch());
 
 		break;
 	case "addCards":
@@ -139,7 +148,7 @@ switch(Param::Get("operation")) {
 
 		$db = DB::Game()->execute('
 			SELECT
-				*
+				id
 			FROM
 				game2
 			WHERE
@@ -154,7 +163,7 @@ switch(Param::Get("operation")) {
 		));
 
 		foreach ($db->fetchAll() as $k => $v) {
-			$data["cards"][] = $v;
+			$data["cards"][] = $v["id"];
 		}
 
 		$all[Player::GetId(Param::Get("id"))] = $data;
@@ -198,7 +207,17 @@ switch(Param::Get("operation")) {
 			Page::SendJSON(false);
 		}
 
-		Page::SendJSON($data["cards"]);
+		$db = DB::Game()->execute('
+			SELECT
+				*
+			FROM
+				game2
+			WHERE
+				id IN ('.implode(",", $data["cards"]).')
+		', array(
+		));
+
+		Page::SendJSON($db->fetchAll());
 
 		break;
 }

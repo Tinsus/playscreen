@@ -1,5 +1,11 @@
 ### Stuff to do ###
 
+#Game 2 Cards Against Humanity
+- Spaces should by dynamicly set using default replacements like [1], (1) or {1} (but shown as _____ every time) -> also dynamicly replace this with ansers vor player AND host
+- field to add new white cards ingame
+- field to add new black cards ingame
+- Cards Against Humanity (Decks mobbsen von https://azala.info/ - API angraben?)
+
 #Game1 Mensch ärger dich nicht:
 - rework/rebuild: delete placing table and jquery-ui stuff. switch to http://snapsvg.io/docs/#Element.drag to place players inside svg and handle them there
 - playerposition setup before figures placed
@@ -29,7 +35,6 @@
 - Activity (Zeichnen, RL-Pantomime)
 - Tabu (Erklären mit ohne Tabu-Wörter)
 - Hangman
-- Cards Against Humanity (Decks mobbsen von https://azala.info/ - API angraben?)
 - Stadt Land Fluss
 
 ### Game-List ###

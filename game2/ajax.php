@@ -4,6 +4,55 @@ $root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 require_once($root."inc/.module.php");
 
 switch(Param::Get("operation")) {
+	case "wins":
+		$db = DB::Save()->execute('
+			SELECT
+				playerdata, gamedata
+			FROM
+				savegames
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		$playerdata = unserialize($db["playerdata"]);
+		$gamedata = unserialize($db["gamedata"]);
+
+		$win = Param::Get("win");
+
+		if (!array_key_exists("wins", $playerdata[$win])) {
+			$playerdata[$win]["wins"] = 0;
+		}
+
+		$playerdata[$win]["wins"]++;
+
+		$gamedata["currentQuestion"] = "";
+		$gamedata["picks"] = array();
+
+		$all["currentQuestion"] = $db["id"];
+
+		DB::Save()->execute("
+			UPDATE
+				savegames
+			SET
+				playerdata = :playerdata,
+				gamedata = :gamedata
+			WHERE
+				id = :id
+		", array(
+			":id" => Param::Get("id"),
+			":gamedata" => serialize($gamedata),
+			":playerdata" => serialize($playerdata),
+		));
+
+		Page::SendJSON($playerdata[$win]["wins"]);
+
+		break;
 	case "getPicks":
 		$db = DB::Save()->execute('
 			SELECT
@@ -76,7 +125,11 @@ switch(Param::Get("operation")) {
 		}
 
 		if (array_key_exists("picks", $db["gamedata"]) or count($db["gamedata"]["picks"]) != 0) {
-			Page::SendJSON("picking");
+			if (count($db["gamedata"]["picks"]) == $db["numplayer"]) {
+				Page::SendJSON("voteing");
+			} else {
+				Page::SendJSON("picking");
+			}
 		}
 
 		Page::SendJSON(false);

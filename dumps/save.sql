@@ -94,6 +94,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES ('v2kb77kgajqqsn1i2uc9gqsh04','2018-04-05 13:07:58',''),('38jtgkhoh81i5e6dqs1nltpq6c','2018-04-05 13:07:58',''),('iu3052vsug4o5p7s7oplq24b9g','2018-04-05 13:07:58','');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-05  0:44:02
+-- Dump completed on 2018-04-05 13:07:58

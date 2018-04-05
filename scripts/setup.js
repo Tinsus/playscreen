@@ -53,6 +53,8 @@ function showAvatars() {
 	watchAvatars();
 }
 
+var selected = false;
+
 function watchAvatars() {
 	$.postJSON(GetDomain() + "ajax.php", {
 		operation: "getGameData",
@@ -70,15 +72,15 @@ function watchAvatars() {
 			`);
 		});
 
+		if (selected) {
+			$("#avatar div button").addClass("w3-disabled");
+			$("#avatar div button").prop("disabled", true);
+			$("#avatar div button").attr("onclick", false);
+		}
+
 		if (json["playerdata"].length != json["numplayer"]) {
 			setTimeout("watchAvatars()", 200);
 		} else {
-			getAvatars().forEach(function(v) {
-				$("#avatar div button").addClass("w3-disabled");
-				$("#avatar div button").prop("disabled", true);
-				$("#avatar div button").attr("onclick", false);
-			});
-
 			checkCountdown();
 		}
 	}).fail(function(jqXHR, msg) {
@@ -88,6 +90,7 @@ function watchAvatars() {
 
 function selectAvatar(tag) {
 	AjaxLoading(true);
+	selected = true;
 
 	$.postJSON(GetDomain() + "ajax.php", {
 		operation: "selectAvatar",

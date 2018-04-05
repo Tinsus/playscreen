@@ -441,18 +441,20 @@ function wins(id) {
 	$(".creator").hide();
 	$(".fromcreator").fadeIn();
 
-	$.postJSON(GetDomain() + "game2/ajax.php", {
-		operation: "wins",
-		id: getUrlVar("id"),
-		win: id,
-	}).done(function(json) {
-		$("#question").html("");
-		$("#answers").html("");
+	setTimeout(function() {
+		$.postJSON(GetDomain() + "game2/ajax.php", {
+			operation: "wins",
+			id: getUrlVar("id"),
+			win: id,
+		}).done(function(json) {
+			$("#question").html("");
+			$("#answers").html("");
 
-		$("#points" + id).html(json);
-	}).fail(function(jqXHR, msg) {
-		wins(id);
-	});
+			$("#points" + id).html(json);
+		}).fail(function(jqXHR, msg) {
+			wins(id);
+		});
+	}, 5000);
 }
 
 function getPicks(vote) {

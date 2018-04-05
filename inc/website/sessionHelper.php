@@ -1,6 +1,14 @@
 <?php
 class MySessionHandler implements SessionHandlerInterface {
 	public function open($savePath, $sessionName) {
+		session_set_cookie_params(
+			60 * 60 * 24 * 30,
+			"/",
+			$_SERVER['HTTP_HOST'],
+			$_SERVER['HTTP_HOST'] != "localhost",
+			true
+		);
+
 		return true;
 	}
 
@@ -8,14 +16,7 @@ class MySessionHandler implements SessionHandlerInterface {
 		return true;
 	}
 
-	public function read($id, $override = false) {
-		if (!$override and array_key_exists("SessionAuth", $_COOKIE) and $_COOKIE["SessionAuth"] != session_id()) {
-			self::write(session_id(), self::read($_COOKIE["SessionAuth"], true));
-			self::Destroy($_COOKIE["SessionAuth"]);
-
-			return self::read($_COOKIE["SessionAuth"], true);
-		}
-
+	public function read($id) {
 		$db = DB::Save()->execute("
 			SELECT
 				value
@@ -29,9 +30,7 @@ class MySessionHandler implements SessionHandlerInterface {
 
 		$row = $db->fetch();
 
-		setcookie("SessionAuth", session_id(), 60 * 60 * 24 * 30 + time(), "/", $_SERVER['HTTP_HOST'], $_SERVER['HTTP_HOST'] != "localhost", true);
-
-		if (!is_array($row)) {
+		if ($row === false) {
 			return "";
 		} else {
 			return $row["value"];
@@ -50,7 +49,7 @@ class MySessionHandler implements SessionHandlerInterface {
 			":data" => $data,
 		));
 
-		return (bool) $db;
+		return $db !== false;
 	}
 
 	public function destroy($id) {
@@ -63,7 +62,7 @@ class MySessionHandler implements SessionHandlerInterface {
 			":id" => $id,
 		));
 
-		return (bool) $db;
+		return $db !== false;
 	}
 
 	public function gc($lifeTime) {
@@ -80,16 +79,15 @@ class MySessionHandler implements SessionHandlerInterface {
 			":lifeTime" => date("H:i:s", $lifeTime),
 		));
 
-		return (bool) $db;
+		return $db !== false;
 	}
 }
 
-$handler = new MySessionHandler();
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
 ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);
-session_set_cookie_params(60 * 60 * 24 * 30 , "/", $_SERVER['HTTP_HOST'], $_SERVER['HTTP_HOST'] != "localhost", true);
+
+$handler = new MySessionHandler();
 session_set_save_handler($handler, true);
-session_name("Session");
 
 session_start();

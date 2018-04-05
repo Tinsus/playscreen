@@ -88,6 +88,6 @@ ini_set('session.gc_divisor', 100);
 ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);
 
 $handler = new MySessionHandler();
-session_set_save_handler($handler, true);
+//session_set_save_handler($handler, true);
 
 session_start();

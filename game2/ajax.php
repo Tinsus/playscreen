@@ -3,6 +3,83 @@ $root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 
 require_once($root."inc/.module.php");
 
+function refreshCards($gameid) {
+	$db = DB::Game()->execute("
+		SELECT
+			id
+		FROM
+			game2
+		WHERE
+			pick != 0
+			AND
+			vote >= -5
+		ORDER BY
+			RAND()
+	", array(
+	));
+
+	$db = $db->fetchAll();
+
+	$q = array();
+
+	foreach ($db as $k => $v) {
+		$q[] = (int) $v["id"];
+	}
+
+	$db = DB::Game()->execute("
+		SELECT
+			id
+		FROM
+			game2
+		WHERE
+			pick = 0
+			AND
+			vote >= -5
+		ORDER BY
+			RAND()
+	", array(
+	));
+
+	$db = $db->fetchAll();
+
+	$a = array();
+
+	foreach ($db as $k => $v) {
+		$a[] = (int) $v["id"];
+	}
+
+	$db = DB::Save()->execute('
+		SELECT
+			gamedata
+		FROM
+			savegames
+		WHERE
+			id = :id
+		LIMIT
+			1
+	', array(
+		":id" => $gameid,
+	));
+
+	$db = $db->fetch();
+	$db = unserialize($db["gamedata"]);
+
+	$db["q"] = $q;
+	$db["a"] = $a;
+
+	DB::Save()->execute("
+		UPDATE
+			savegames
+		SET
+			gamedata = :gamedata
+		WHERE
+			id = :id
+	", array(
+		":id" => $gameid,
+		":gamedata" => serialize($db),
+	));
+}
+
 switch(Param::Get("operation")) {
 	case "addQuestion":
 		$db = DB::Game();
@@ -250,25 +327,19 @@ switch(Param::Get("operation")) {
 		$db = $db->fetch();
 		$all = unserialize($db["gamedata"]);
 
-		$db = DB::Game()->execute('
-			SELECT
-				id
-			FROM
-				game2
-			WHERE
-				pick != 0
-				AND
-				vote >= -5
-			ORDER BY
-				RAND()
-			LIMIT
-				1
-		', array(
-		));
+		if (!array_key_exists("q", $all) or count($all["q"]) == 0) {
+			refreshCards(Param::Get("id"));
 
-		$db = $db->fetch();
+			break;
+		}
 
-		$all["currentQuestion"] = $db["id"];
+		$all["currentQuestion"] = array_shift($all["q"]);
+
+		if ($all["currentQuestion"] == NULL) {
+			refreshCards(Param::Get("id"));
+
+			break;
+		}
 
 		DB::Save()->execute("
 			UPDATE
@@ -368,7 +439,7 @@ switch(Param::Get("operation")) {
 	case "addCards":
 		$db = DB::Save()->execute('
 			SELECT
-				playerdata
+				gamedata, playerdata
 			FROM
 				savegames
 			WHERE
@@ -380,52 +451,38 @@ switch(Param::Get("operation")) {
 		));
 
 		$db = $db->fetch();
+		$all = unserialize($db["gamedata"]);
+		$data = unserialize($db["playerdata"]);
 
-		$all = unserialize($db["playerdata"]);
+		if (!array_key_exists("a", $all) or count($all["a"]) == 0) {
+			refreshCards(Param::Get("id"));
 
-		$data = $all[Player::GetId(Param::Get("id"))];
-
-		if (!array_key_exists("cards", $data)) {
-			$data["cards"] = array();
+			break;
 		}
 
-		$sum = 10 - count($data["cards"]);
-
-		$db = DB::Game()->execute('
-			SELECT
-				id
-			FROM
-				game2
-			WHERE
-				pick = 0
-				AND
-				vote >= -5
-			ORDER BY
-				RAND()
-			LIMIT
-				'.$sum.'
-		', array(
-		));
-
-		foreach ($db->fetchAll() as $k => $v) {
-			$data["cards"][] = $v["id"];
+		if (!array_key_exists("cards", $data[Player::GetId(Param::Get("id"))])) {
+			$data[Player::GetId(Param::Get("id"))]["cards"] = array();
 		}
 
-		$all[Player::GetId(Param::Get("id"))] = $data;
+		for ($i = 1; $i <= 10 - count($data[Player::GetId(Param::Get("id"))]["cards"]); $i++) {
+			$data[Player::GetId(Param::Get("id"))]["cards"][] = array_shift($all["a"]);
+		}
 
 		DB::Save()->execute("
 			UPDATE
 				savegames
 			SET
+				gamedata = :gamedata,
 				playerdata = :playerdata
 			WHERE
 				id = :id
 		", array(
 			":id" => Param::Get("id"),
-			":playerdata" => serialize($all),
+			":gamedata" => serialize($all),
+			":playerdata" => serialize($data),
 		));
 
-		Page::SendJSON(count($data["cards"]));
+		Page::SendJSON(count($data[Player::GetId(Param::Get("id"))]["cards"]));
 
 		break;
 	case "ownCards":
@@ -446,9 +503,7 @@ switch(Param::Get("operation")) {
 
 		$all = unserialize($db["playerdata"]);
 
-		$data = $all[Player::GetId(Param::Get("id"))];
-
-		if (!array_key_exists("cards", $data) or count($data["cards"]) == 0) {
+		if (!array_key_exists("cards", $all[Player::GetId(Param::Get("id"))]) or count($all[Player::GetId(Param::Get("id"))]["cards"]) == 0) {
 			Page::SendJSON(false);
 		}
 
@@ -458,7 +513,7 @@ switch(Param::Get("operation")) {
 			FROM
 				game2
 			WHERE
-				id IN ('.implode(",", $data["cards"]).')
+				id IN ('.implode(",", $all[Player::GetId(Param::Get("id"))]["cards"]).')
 		', array(
 		));
 

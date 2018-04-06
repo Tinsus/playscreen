@@ -12,6 +12,6 @@ git add dumps/save.sql
 
 echo Dumping current GAME database and adding it to commit
 rm -f dumps/game.sql
-mysqldump -u root playscreen_game --default-character-set=utf8 --lines-terminated-by="\r\n" > dumps/game.sql
+mysqldump -u root playscreen_game --default-character-set=utf8 > dumps/game.sql
 git add dumps/game.sql
 exit 0

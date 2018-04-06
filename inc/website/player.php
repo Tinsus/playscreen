@@ -44,4 +44,24 @@ class Player {
 
 		return array_search(session_id(), unserialize($db["player"]));
 	}
+
+	static function GetName($gameid) {
+		$db = DB::Save()->execute('
+			SELECT
+				playerdata
+			FROM
+				savegames
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => $gameid,
+		));
+
+		$db = $db->fetch();
+		$db = unserialize($db["playerdata"]);
+
+		return $db[self::GetId($gameid)]["name"];
+	}
 }

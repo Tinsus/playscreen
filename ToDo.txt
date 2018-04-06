@@ -1,14 +1,9 @@
 ### Stuff to do ###
 
 #Game 2 Cards Against Humanity
-- 2 players: own-cards loop with ajax warning? why? (unplayable!)
 - server: js tastatur für eingabefehlder
-- bug: server zeigt nur erste auswahl, nicht alle bei mehrfachwahl
-- bug: markierung bei mehrfahcwahl bei player verursacht falsches coding (pick-object loopen für green, ansonsten pale-green?)
 - picked disconnect and reconnect with correct picking state missing
 - Spaces should by dynamicly set using default replacements like [1], (1) or {1} (but shown as _____ every time) -> also dynamicly replace this with ansers vor player AND host
-- field to add new white cards ingame
-- field to add new black cards ingame
 - Cards Against Humanity (Decks mobbsen von https://azala.info/ - API angraben?)
 
 #Game1 Mensch ärger dich nicht:

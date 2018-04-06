@@ -4,6 +4,73 @@ $root = $_SERVER["DOCUMENT_ROOT"]."/playscreen/";
 require_once($root."inc/.module.php");
 
 switch(Param::Get("operation")) {
+	case "addQuestion":
+		$db = DB::Game();
+
+		$data = $db->execute("
+			INSERT INTO
+				game2
+				(text, box, pick)
+			VALUES
+				(:text, :box, :pick)
+		", array(
+			":text" => Param::Get("answer"),
+			":box" => Player::GetName(Param::Get("id")),
+			":pick" => Param::Get("pick"),
+		));
+
+		Page::SendJSON($db->lastInsertId());
+
+		break;
+	case "addAnswer":
+		$db = DB::Game();
+
+		$data = $db->execute("
+			INSERT INTO
+				game2
+				(text, box)
+			VALUES
+				(:text, :box)
+		", array(
+			":text" => Param::Get("answer"),
+			":box" => Player::GetName(Param::Get("id")),
+		));
+
+		$new = $db->lastInsertId();
+
+		$db = DB::Save()->execute('
+			SELECT
+				playerdata
+			FROM
+				savegames
+			WHERE
+				id = :id
+			LIMIT
+				1
+		', array(
+			":id" => Param::Get("id"),
+		));
+
+		$db = $db->fetch();
+
+		$all = unserialize($db["playerdata"]);
+		$all[Player::GetId(Param::Get("id"))]["cards"][] = $new;
+
+		DB::Save()->execute("
+			UPDATE
+				savegames
+			SET
+				playerdata = :playerdata
+			WHERE
+				id = :id
+		", array(
+			":id" => Param::Get("id"),
+			":playerdata" => serialize($all),
+		));
+
+		Page::SendJSON(count($all[Player::GetId(Param::Get("id"))]["cards"]));
+
+		break;
 	case "wins":
 		$db = DB::Save()->execute('
 			SELECT

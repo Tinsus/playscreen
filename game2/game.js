@@ -66,6 +66,47 @@ function setupGame() {
 					</tr>
 				</table>
 			</div>
+			<div id="addAnswer" class="w3-container w3-row w3-padding" style="display: none;">
+				<div class="w3-third w3-center">
+					` + GetLoca("NEW_ANSWER") + `:
+				</div>
+				<div class="w3-third w3-center">
+					<textarea id="addAnswerVal" class="w3-input" style="height: 40px;"></textarea>
+				</div>
+				<div class="w3-third w3-center">
+					<button onclick="addAnswer()" class="w3-button w3-green">
+						<i class="fa fa-plus"></i>
+					</button>
+				</div>
+			</div>
+			<div id="addQuestion" class="w3-container w3-row w3-padding" style="display: none;">
+				<div class="w3-third w3-center">
+					` + GetLoca("NEW_QUESTION") + `:
+				</div>
+				<div class="w3-third w3-center">
+					<textarea id="addQuestionVal" class="w3-input" style="height: 40px;"></textarea>
+				</div>
+				<div class="w3-third w3-center w3-bar">
+					<span class="w3-bar-item">
+						` + GetLoca("PICK") + `
+					</span>
+					<button onclick="addQuestion(1)" class="w3-button w3-green w3-bar-item">
+						1
+					</button>
+					<button onclick="addQuestion(2)" class="w3-button w3-green w3-bar-item">
+						2
+					</button>
+					<button onclick="addQuestion(3)" class="w3-button w3-green w3-bar-item">
+						3
+					</button>
+					<button onclick="addQuestion(4)" class="w3-button w3-green w3-bar-item">
+						4
+					</button>
+					<button onclick="addQuestion(5)" class="w3-button w3-green w3-bar-item">
+						5
+					</button>
+				</div>
+			</div>
 		`);
 	}
 
@@ -279,6 +320,9 @@ function state() {
 			case "newQuestion":
 				if (IsServer()) {
 					newQuestion();
+				} else {
+					$("#addAnswer").show();
+					$("#addQuestion").hide();
 				}
 
 				break;
@@ -298,6 +342,9 @@ function state() {
 					picks = [];
 
 					addCards(false);
+
+					$("#addAnswer").hide();
+					$("#addQuestion").show();
 				}
 
 				break;
@@ -356,8 +403,6 @@ function state() {
 						break;
 					}
 				}
-
-				console.log(json);
 		}
 
 		if (IsServer()) {
@@ -545,5 +590,44 @@ function getPicks(vote) {
 		}
 	}).fail(function(jqXHR, msg) {
 		getPicks();
+	});
+}
+
+function addAnswer() {
+	AjaxLoading(true);
+
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "addAnswer",
+		id: getUrlVar("id"),
+		answer: $("#addAnswerVal").val(),
+	}).done(function(json) {
+		$("#addAnswerVal").val("");
+
+		ownCards();
+
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		addAnswer();
+	});
+}
+
+function addQuestion(pick) {
+	AjaxLoading(true);
+
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "addQuestion",
+		id: getUrlVar("id"),
+		answer: $("#addQuestionVal").val(),
+		pick: pick,
+	}).done(function(json) {
+		$("#addQuestionVal").val("");
+
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		addQuestion();
 	});
 }

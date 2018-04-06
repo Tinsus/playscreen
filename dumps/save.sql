@@ -73,31 +73,6 @@ LOCK TABLES `savegames` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `sessions`
---
-
-DROP TABLE IF EXISTS `sessions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sessions` (
-  `id` varchar(50) NOT NULL,
-  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `value` longtext,
-  PRIMARY KEY (`id`),
-  FULLTEXT KEY `ses_value` (`value`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sessions`
---
-
-LOCK TABLES `sessions` WRITE;
-/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `translation`
 --
 
@@ -133,4 +108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-06  2:13:58
+-- Dump completed on 2018-04-06  3:10:54

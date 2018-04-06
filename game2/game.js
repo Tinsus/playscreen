@@ -216,22 +216,22 @@ function ownCards() {
 						</p>
 					</div>
 					<p class="w3-container w3-center picks" style="display: none; width: 200px">
-						<button id="pick0-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick0" onClick="pick(0, ` + v["id"] + `)" style="width: 20%">
+						<button id="pick0-` + v["id"] + `" class="w3-btn w3-green picks` + v["id"] + ` pickall pick0" onClick="pick(0, ` + v["id"] + `)" style="width: 20%">
 							` + GetLoca("PICK") + `
 						</button>
-						<button id="pick1-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick1" onClick="pick(0, ` + v["id"] + `)" style="width: 20%">
+						<button id="pick1-` + v["id"] + `" class="w3-btn w3-green picks` + v["id"] + ` pickall pick1" onClick="pick(0, ` + v["id"] + `)" style="width: 20%">
 							1
 						</button>
-						<button id="pick2-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick2" onClick="pick(1, ` + v["id"] + `)" style="width: 20%">
+						<button id="pick2-` + v["id"] + `" class="w3-btn w3-green picks` + v["id"] + ` pickall pick2" onClick="pick(1, ` + v["id"] + `)" style="width: 20%">
 							2
 						</button>
-						<button id="pick3-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick3" onClick="pick(2, ` + v["id"] + `)" style="width: 20%">
+						<button id="pick3-` + v["id"] + `" class="w3-btn w3-green picks` + v["id"] + ` pickall pick3" onClick="pick(2, ` + v["id"] + `)" style="width: 20%">
 							3
 						</button>
-						<button id="pick4-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick4" onClick="pick(3, ` + v["id"] + `)" style="width: 20%">
+						<button id="pick4-` + v["id"] + `" class="w3-btn w3-green picks` + v["id"] + ` pickall pick4" onClick="pick(3, ` + v["id"] + `)" style="width: 20%">
 							4
 						</button>
-						<button id="pick5-` + v["id"] + `" class="w3-btn w3-green pick` + v["id"] + ` pickall pick5" onClick="pick(4, ` + v["id"] + `)" style="width: 20%">
+						<button id="pick5-` + v["id"] + `" class="w3-btn w3-green picks` + v["id"] + ` pickall pick5" onClick="pick(4, ` + v["id"] + `)" style="width: 20%">
 							5
 						</button>
 					</p>
@@ -373,15 +373,6 @@ function state() {
 var picks = [];
 
 function pick(n, id) {
-	console.log(n)
-	console.log(id)
-
-	var m = n;
-
-	if (parseInt($("#num2pick").html()) != 1) {
-		m--;
-	}
-
 	$("#trash" + id).addClass("w3-disabled");
 	$("#trash" + id).attr("disabled", true);
 	$("#downvote" + id).addClass("w3-disabled");
@@ -389,29 +380,39 @@ function pick(n, id) {
 
 	picks[n] = id;
 
-	$(".pick" + id).removeClass("w3-green");
-	$(".pick" + id).addClass("w3-pale-green");
+	$(".pickall").removeClass("w3-pale-blue");
+	$(".pickall").removeClass("w3-blue");
+	$(".pickall").addClass("w3-green");
 
-	$(".pick" + m).removeClass("w3-green");
-	$(".pick" + m).addClass("w3-pale-green");
+	if (parseInt($("#num2pick").html()) != 1) {
+		$.each(picks, function(k, v) {
+			$(".pick" + (k + 1)).removeClass("w3-green");
+			$(".pick" + (k + 1)).addClass("w3-pale-blue");
 
-	$("#pick" + id + "-" + m).removeClass("w3-pale-green");
-	$("#pick" + id + "-" + m).addClass("w3-green");
+			$(".picks" + v).removeClass("w3-green");
+			$(".picks" + v).addClass("w3-pale-blue");
 
+			$("#pick" + (k + 1) + "-" + v).removeClass("w3-pale-blue");
+			$("#pick" + (k + 1) + "-" + v).addClass("w3-blue");
+		});
+	} else {
+		$.each(picks, function(k, v) {
+			$(".pick" + k).removeClass("w3-green");
+			$(".pick" + k).addClass("w3-pale-blue");
+
+			$(".picks" + v).removeClass("w3-green");
+			$(".picks" + v).addClass("w3-pale-blue");
+
+			$("#pick" + k + "-" + v).removeClass("w3-pale-blue");
+			$("#pick" + k + "-" + v).addClass("w3-blue");
+		});
+	}
 
 	if (picks.length >= parseInt($("#num2pick").html())) {
 		$(".pickall").addClass("w3-disabled");
 		$(".pickall").attr("disabled", true);
 
-		$(".pickall").removeClass("w3-green");
-		$(".pickall").addClass("w3-pale-green");
-
-		$.each(picks, function(k, v) {
-			$("#pick" + k + "-" + v).removeClass("w3-pale-green");
-			$("#pick" + k + "-" + v).addClass("w3-green");
-		});
-
-		submitPick();
+		setTimeout("submitPick()", 3000);
 	}
 }
 
@@ -517,7 +518,7 @@ function getPicks(vote) {
 					$("#from" + k).append(`
 						<td id="hidden` + k + `-` + k2 + `" style="display: none;">
 							<div class="w3-card w3-white w3-container w3-xlarge">
-								<div style="min-height: 250px; width: 25%;"
+								<div style="min-height: 250px; width: 100%;"
 									<p>
 										` + v2["text"] + `
 									</p>

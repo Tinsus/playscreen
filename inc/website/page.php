@@ -217,9 +217,7 @@ class Page {
 	}
 
 	static function GetVersion() {
-		$file = fopen(self::GetRoot()."version.txt", "r");
-		$version = fgets($file);
-		fclose($file);
+		$version = exec("git describe --tags --long");
 		$version = explode("-", $version);
 		return $version[0].".".$version[1];
 	}

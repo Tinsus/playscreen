@@ -100,7 +100,7 @@ function getQuestion() {
 					</div>
 					<div class="w3-third w3-card w3-black w3-container w3-xlarge">
 						<p style="min-height: 250px">
-							` + json["text"] + `
+							` + nl2br(json["text"]) + `
 						</p>
 						<p class="w3-tiny w3-text-grey">
 							` + json["id"] + `
@@ -117,7 +117,7 @@ function getQuestion() {
 					<div class="w3-medium w3-margin">
 						<div class="w3-card w3-black w3-container">
 							<p class="w3-left w3-container">
-								` + json["text"] + `
+								` + nl2br(json["text"]) + `
 							</p>
 							<div class="w3-right w3-container">
 								<button id="upvote` + json["id"] + `" class="w3-btn w3-black w3-text-grey" onClick="vote(1, ` + json["id"] + `)">
@@ -207,7 +207,7 @@ function ownCards() {
 				<td id="card` + v["id"] + `">
 					<div style="width: 200px" class="w3-card w3-white w3-container w3-medium">
 						<p style="min-height: 175px">
-							` + v["text"] + `
+							` + nl2br(v["text"]) + `
 						</p>
 						<p class="w3-tiny w3-text-grey">
 							` + v["id"] + `
@@ -441,6 +441,7 @@ var last = "";
 function wins(id) {
 	$(".creator").hide();
 	$(".fromcreator").fadeIn();
+	$(".technical").fadeIn();
 
 	setTimeout(function() {
 		$.postJSON(GetDomain() + "game2/ajax.php", {
@@ -471,9 +472,9 @@ function getPicks(vote) {
 			$.each(json, function(k, v) {
 				var html = `
 					<tr id="from` + k + `">
-						<td id="fromcreator` + k + `" class="fromcreator" style="display: none;">
+						<td id="fromcreator` + k + `" class="fromcreator" style="display: none;" width="10%">
 						</td>
-						<td class="creator">
+						<td class="creator" width="10%">
 							<button class="w3-btn votes w3-green" style="min-height: 250px; width: 100%;" onclick="wins(` + k + `)">
 								` + GetLoca("WINS") + `
 							</button>
@@ -506,7 +507,7 @@ function getPicks(vote) {
 
 				$.each(v, function(k2, v2) {
 					$("#from" + k).append(`
-						<td id="shown` + k + `-` + k2 + `">
+						<td id="shown` + k + `-` + k2 + `" width="25%">
 							<div class="w3-card w3-white w3-container w3-xlarge">
 								<button class="w3-btn votes" style="min-height: 250px; width: 100%;" onclick="$('#hidden` + k + `-` + k2 + `').fadeIn(); $('#shown` + k + `-` + k2 + `').hide();">
 									` + GetLoca("SHOW") + `
@@ -516,13 +517,13 @@ function getPicks(vote) {
 					`);
 
 					$("#from" + k).append(`
-						<td id="hidden` + k + `-` + k2 + `" style="display: none;">
+						<td id="hidden` + k + `-` + k2 + `" style="display: none;" width="25%">
 							<div class="w3-card w3-white w3-container w3-xlarge">
 								<div style="min-height: 250px; width: 100%;"
 									<p>
-										` + v2["text"] + `
+										` + nl2br(v2["text"]) + `
 									</p>
-									<p class="w3-tiny w3-text-grey" style="display: none;">
+									<p class="technical w3-tiny w3-text-grey" style="display: none;">
 										` + v2["id"] + `
 										` + v2["box"] + `
 										` + v2["vote"] + `

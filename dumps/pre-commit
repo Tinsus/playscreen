@@ -3,17 +3,15 @@
 exec 1>&2
 echo TRUNCATE errorlog
 mysql -uroot -D playscreen_save -e "TRUNCATE errorlog";
-echo TRUNCATE sessions
-mysql -uroot -D playscreen_save -e "TRUNCATE sessions";
 echo TRUNCATE savegames
 mysql -uroot -D playscreen_save -e "TRUNCATE savegames";
 echo Dumping current SAVE database and adding it to commit
 rm -f dumps/save.sql
-mysqldump -u root playscreen_save --default-character-set=utf8 > dumps/save.sql
+mysqldump -u root playscreen_save --default-character-set=utf8 --lines-terminated-by="\r\n" > dumps/save.sql
 git add dumps/save.sql
 
 echo Dumping current GAME database and adding it to commit
 rm -f dumps/game.sql
-mysqldump -u root playscreen_game --default-character-set=utf8 > dumps/game.sql
+mysqldump -u root playscreen_game --default-character-set=utf8 --lines-terminated-by="\r\n" > dumps/game.sql
 git add dumps/game.sql
 exit 0

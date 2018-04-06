@@ -1,13 +1,11 @@
 ### Stuff to do ###
 
 #Game 2 Cards Against Humanity
-- fun: every card should only be used once per game
 - rotate screen
 - server: js tastatur für eingabefehlder
 - picked disconnect and reconnect with correct picking state missing
 - Spaces should by dynamicly set using default replacements like [1], (1) or {1} (but shown as _____ every time) -> also dynamicly replace this with ansers vor player AND host
 - Cards Against Humanity (Decks mobbsen von https://azala.info/ - API angraben?)
-- Add Box selection (or exclude xxx)
 
 #Game1 Mensch ärger dich nicht:
 - rework/rebuild: delete placing table and jquery-ui stuff. switch to http://snapsvg.io/docs/#Element.drag to place players inside svg and handle them there

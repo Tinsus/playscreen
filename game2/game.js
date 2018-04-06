@@ -423,6 +423,10 @@ function pick(n, id) {
 	$("#downvote" + id).addClass("w3-disabled");
 	$("#downvote" + id).attr("disabled", true);
 
+	if (picks.indexOf(id) == -1) {
+		picks[picks.indexOf(id)] = undefined;
+	}
+
 	picks[n] = id;
 
 	$(".pickall").removeClass("w3-pale-blue");

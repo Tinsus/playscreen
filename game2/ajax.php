@@ -12,7 +12,7 @@ function refreshCards($gameid) {
 		WHERE
 			pick != 0
 			AND
-			vote >= -5
+			vote >= -3
 		ORDER BY
 			RAND()
 	", array(
@@ -34,7 +34,7 @@ function refreshCards($gameid) {
 		WHERE
 			pick = 0
 			AND
-			vote >= -5
+			vote >= -3
 		ORDER BY
 			RAND()
 	", array(
@@ -151,7 +151,7 @@ switch(Param::Get("operation")) {
 	case "wins":
 		$db = DB::Save()->execute('
 			SELECT
-				playerdata, gamedata
+				numplayer, playerdata, gamedata
 			FROM
 				savegames
 			WHERE
@@ -174,6 +174,12 @@ switch(Param::Get("operation")) {
 		}
 
 		$playerdata[$win]["wins"]++;
+
+		$gamedata["master"]++;
+
+		if ($gamedata["master"] >= $db["numplayer"]) {
+			$gamedata["master"] = 0;
+		}
 
 		$gamedata["currentQuestion"] = "";
 		$gamedata["picks"] = array();
@@ -269,10 +275,14 @@ switch(Param::Get("operation")) {
 		}
 
 		if (array_key_exists("picks", $db["gamedata"]) or count($db["gamedata"]["picks"]) != 0) {
-			if (count($db["gamedata"]["picks"]) == $db["numplayer"]) {
+			if (count($db["gamedata"]["picks"]) == $db["numplayer"] - 1) {
 				Page::SendJSON("voteing");
 			} else {
-				Page::SendJSON("picking");
+				if ($db["gamedata"]["master"] == Player::GetId(Param::Get("id"))) {
+					Page::SendJSON("master");
+				} else {
+					Page::SendJSON("picking");
+				}
 			}
 		}
 
@@ -335,6 +345,10 @@ switch(Param::Get("operation")) {
 
 		$all["currentQuestion"] = array_shift($all["q"]);
 
+		if (!array_key_exists("master", $all)) {
+			$all["master"] = 0;
+		}
+
 		if ($all["currentQuestion"] == NULL) {
 			refreshCards(Param::Get("id"));
 
@@ -373,6 +387,8 @@ switch(Param::Get("operation")) {
 		$db = $db->fetch();
 		$db = unserialize($db["gamedata"]);
 
+		$isMaster = $db["master"] == Player::GetId(Param::Get("id"));
+
 		$db = DB::Game()->execute('
 			SELECT
 				*
@@ -386,7 +402,10 @@ switch(Param::Get("operation")) {
 			":id" => $db["currentQuestion"],
 		));
 
-		Page::SendJSON($db->fetch());
+		Page::SendJSON(array(
+			"q" => $db->fetch(),
+			"master" => $isMaster,
+		));
 
 		break;
 	case "trash":

@@ -66,6 +66,16 @@ function setupGame() {
 					</tr>
 				</table>
 			</div>
+			<div id="iammaster" class="w3-container w3-row w3-padding" style="display: none;">
+				<div class="w3-center">
+					<h1>
+						` + GetLoca("YOU_ARE_MASTER") + `
+					</h1>
+					<p>
+						` + GetLoca("CHECK_MONITOR_FOR_RESULTS") + `
+					</p>
+				</div>
+			</div>
 			<div id="addAnswer" class="w3-container w3-row w3-padding" style="display: none;">
 				<div class="w3-third w3-center">
 					` + GetLoca("NEW_ANSWER") + `:
@@ -141,14 +151,14 @@ function getQuestion() {
 					</div>
 					<div class="w3-third w3-card w3-black w3-container w3-xlarge">
 						<p style="min-height: 250px">
-							` + nl2br(json["text"]) + `
+							` + nl2br(json["q"]["text"]) + `
 						</p>
-						<p class="w3-tiny w3-text-grey">
-							` + json["id"] + `
-							` + json["box"] + `
-							` + json["vote"] + `
+						<p class="w3-tiny w3-text-light-grey">
+							` + json["q"]["id"] + `
+							` + json["q"]["box"] + `
+							` + json["q"]["vote"] + `
 							<b class="w3-right w3-medium w3-text-white">
-								` + json["pick"] + `
+								` + json["q"]["pick"] + `
 							</b>
 						</p>
 					</div>
@@ -158,19 +168,19 @@ function getQuestion() {
 					<div class="w3-medium w3-margin">
 						<div class="w3-card w3-black w3-container">
 							<p class="w3-left w3-container">
-								` + nl2br(json["text"]) + `
+								` + nl2br(json["q"]["text"]) + `
 							</p>
 							<div class="w3-right w3-container">
-								<button id="upvote` + json["id"] + `" class="w3-btn w3-black w3-text-grey" onClick="vote(1, ` + json["id"] + `)">
+								<button id="upvote` + json["q"]["id"] + `" class="w3-btn w3-black w3-text-grey" onClick="vote(1, ` + json["q"]["id"] + `)">
 									<i class="fa fa-thumbs-o-up fa-1"></i>
 								</button>
-								<button id="downvote` + json["id"] + `" class="w3-btn w3-black w3-text-grey" onClick="vote(-1, ` + json["id"] + `)">
+								<button id="downvote` + json["q"]["id"] + `" class="w3-btn w3-black w3-text-grey" onClick="vote(-1, ` + json["q"]["id"] + `)">
 									<i class="fa fa-thumbs-o-down fa-1"></i>
 								</button>
 							</div>
 						</div>
 						<span id="num2pick" style="display: none;">
-							` + json["pick"] + `
+							` + json["q"]["pick"] + `
 						</span>
 					</div>
 				`);
@@ -348,6 +358,13 @@ function state() {
 				}
 
 				break;
+			case "master":
+				$("#iammaster").show();
+
+				$("#addAnswer").show();
+				$("#addQuestion").show();
+
+				break;
 			case "picking":
 				if (IsServer()) {
 					getPicks(false);
@@ -355,6 +372,8 @@ function state() {
 					break;
 				}
 			default:
+				$("#iammaster").hide();
+
 				if (!IsServer()) {
 					if (picks.length == 0) {
 						if ($("#asked").html().trim().length == 0) {
@@ -491,6 +510,8 @@ function wins(id) {
 	$(".creator").hide();
 	$(".fromcreator").fadeIn();
 	$(".technical").fadeIn();
+	$(".hidden").fadeIn();
+	$(".shown").hide();
 
 	setTimeout(function() {
 		$.postJSON(GetDomain() + "game2/ajax.php", {
@@ -556,7 +577,7 @@ function getPicks(vote) {
 
 				$.each(v, function(k2, v2) {
 					$("#from" + k).append(`
-						<td id="shown` + k + `-` + k2 + `" width="25%">
+						<td id="shown` + k + `-` + k2 + `" class="shown" width="25%">
 							<div class="w3-card w3-white w3-container w3-xlarge">
 								<button class="w3-btn votes" style="min-height: 250px; width: 100%;" onclick="$('#hidden` + k + `-` + k2 + `').fadeIn(); $('#shown` + k + `-` + k2 + `').hide();">
 									` + GetLoca("SHOW") + `
@@ -566,7 +587,7 @@ function getPicks(vote) {
 					`);
 
 					$("#from" + k).append(`
-						<td id="hidden` + k + `-` + k2 + `" style="display: none;" width="25%">
+						<td id="hidden` + k + `-` + k2 + `" class="hidden" style="display: none;" width="25%">
 							<div class="w3-card w3-white w3-container w3-xlarge">
 								<div style="min-height: 250px; width: 100%;"
 									<p>

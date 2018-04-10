@@ -4,8 +4,8 @@
 		<b>{function="Loca::Get('CATCHPHRASE')"}</b>
 	</p>
 </div>
-{loop="array(1,2)"}
 <div class="padding-64{if='$counter%2==0'} w3-theme-l1{/if} gamedecs" onclick="prepareGame({$value})" style="cursor: pointer;">
+{loop="array(3,2,1)"}
 	<h1 class="w3-center w3-margin-bottom">
 		{function="Loca::Get('GAME'.$value)"}
 	</h1>

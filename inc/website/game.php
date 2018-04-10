@@ -37,16 +37,17 @@ class Game {
 		$data = array();
 
 		foreach (
-		array(
-			"id" => 0,
-			"time" => 0,
-			"game" => 0,
-			"numplayer" => -1,
-			"player" => array(),
-			"playerdata" => array(),
-			"gamedata" => array(),
-			"settings" => array(),
-		) as $k => $v) {
+			array(
+				"id" => 0,
+				"time" => 0,
+				"game" => 0,
+				"numplayer" => -1,
+				"player" => array(),
+				"playerdata" => array(),
+				"gamedata" => array(),
+				"settings" => array(),
+			) as $k => $v
+		) {
 			if (array_key_exists($k, $db)) {
 				if (gettype($v) == "array") {
 					$value = unserialize($db[$k]);
@@ -144,5 +145,63 @@ class Game {
 		$db = Game::Get($game);
 
 		return isset($db["settings"]["name"]) and $db["numplayer"] == count($db["playerdata"]);
+	}
+
+	static function Saves($game) {
+		$db = DB::Save()->execute('
+			SELECT
+				*
+			FROM
+				savegames
+			WHERE
+				game = :game
+				AND
+				numplayer > 0
+			ORDER BY
+				id DESC
+		', array(
+			":game" => $game,
+		));
+
+		$db = $db->fetchAll();
+
+		if ($db === false) {
+			return false;
+		}
+
+		$data = array();
+
+		foreach ($db as $km => $vm) {
+			foreach (
+				array(
+					"id" => 0,
+					"time" => 0,
+					"game" => 0,
+					"numplayer" => -1,
+					"player" => array(),
+					"playerdata" => array(),
+					"gamedata" => array(),
+					"settings" => array(),
+				) as $k => $v
+			) {
+				if (array_key_exists($k, $vm)) {
+					if (gettype($v) == "array") {
+						$value = unserialize($vm[$k]);
+
+						if ($value == false) {
+							$value = array();
+						}
+
+						$data[$km][$k] = $value;
+					} else {
+						$data[$km][$k] = $vm[$k];
+					}
+				} else {
+					$data[$km][$k] = $v;
+				}
+			}
+		}
+
+		return $data;
 	}
 }

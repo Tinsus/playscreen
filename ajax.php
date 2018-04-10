@@ -71,6 +71,10 @@ switch(Param::Get("operation")) {
 		Page::SendJSON(true);
 
 		break;
+	case "getSaves":
+		Page::SendJSON(Game::Saves(Param::Get("game")));
+
+		break;
 	default:
 		Page::SendJSON(false);
 

@@ -138,7 +138,7 @@ function play() {
 		operation: "startGameHosting",
 		game: $("#id").html(),
 	}).done(function(json) {
-		location.href=GetDomain() + "setup.php?id=" + $("#id").html();
+		location.href = GetDomain() + "setup.php?id=" + $("#id").html();
 
 		AjaxLoading(false);
 	}).fail(function(jqXHR, msg) {
@@ -146,4 +146,42 @@ function play() {
 
 		waitForPlayers();
 	});
+}
+
+function getExtra(game) {
+	AjaxLoading(true);
+
+	$.postJSON(GetDomain() + "ajax.php", {
+		operation: "getSaves",
+		game: game,
+	}).done(function(json) {
+		$.each(json, function(k, v) {
+			$("#saves" + game).append(`
+				<button class="w3-btn w3-theme-d1" onclick="loadGame(` + v["id"] + `)">
+					<b>
+						` + v["settings"]["name"] + `
+					</b>
+					(` + v["numplayer"] + `):
+				</button>
+			`);
+
+			$.each(v["playerdata"], function(k2, v2) {
+				$("#saves" + game + " button:last").append(`
+					<span class="w3-` + v2["tag"] + `">
+						` + v2["name"] + `
+					</span>
+				`);
+			});
+		});
+
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		getExtra(game);
+	});
+}
+
+function loadGame(id) {
+	location.href = GetDomain() + "reconnect.php?id=" + $("#id").html();
 }

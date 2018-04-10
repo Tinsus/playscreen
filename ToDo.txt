@@ -1,6 +1,7 @@
 ### Stuff to do ###
 
 #Game 2 Cards Against Humanity
+- minor bug: on first choise noone is master
 - rotate screen
 - server: js tastatur für eingabefehlder
 - picked disconnect and reconnect with correct picking state missing

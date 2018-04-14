@@ -9,9 +9,12 @@ class Player {
 			$player = $db["player"];
 		}
 
-		$player[] = session_id();
+		$date = new DateTime();
 
-		$player = array_unique($player);
+		$player[session_id()] = array(
+			count($player),
+			$date->getTimestamp(),
+		);
 
 		DB::Save()->execute("
 			UPDATE
@@ -27,22 +30,9 @@ class Player {
 	}
 
 	static function GetId($gameid) {
-		$db = DB::Save()->execute('
-			SELECT
-				player
-			FROM
-				savegames
-			WHERE
-				id = :id
-			LIMIT
-				1
-		', array(
-			":id" => $gameid,
-		));
+		$db = Game::Get($gameid);
 
-		$db = $db->fetch();
-
-		return array_search(session_id(), unserialize($db["player"]));
+		return $db["player"][session_id()][0];
 	}
 
 	static function GetName($gameid) {

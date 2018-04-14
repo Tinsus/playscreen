@@ -71,7 +71,7 @@ function setupGame() {
 					<h1>
 						` + GetLoca("YOU_ARE_MASTER") + `
 					</h1>
-					<p>
+					<p id="iammasternow" class="w3-text-red" style="display: none;">
 						` + GetLoca("CHECK_MONITOR_FOR_RESULTS") + `
 					</p>
 				</div>
@@ -332,7 +332,7 @@ function state() {
 					newQuestion();
 				} else {
 					$("#addAnswer").show();
-					$("#addQuestion").hide();
+					$("#addQuestion").show();
 				}
 
 				break;
@@ -353,12 +353,19 @@ function state() {
 
 					addCards(false);
 
-					$("#addAnswer").hide();
+					$("#addAnswer").show();
 					$("#addQuestion").show();
+
+					if ($("#iammaster").is(":visible")) {
+						$("#iammasternow").show();
+					}
 				}
 
 				break;
 			case "master":
+				$("#asked").html("");
+				$("#cards").html("");
+
 				$("#iammaster").show();
 
 				$("#addAnswer").show();
@@ -373,6 +380,7 @@ function state() {
 				}
 			default:
 				$("#iammaster").hide();
+				$("#iammasternow").hide();
 
 				if (!IsServer()) {
 					if (picks.length == 0) {

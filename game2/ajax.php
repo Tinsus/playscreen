@@ -274,15 +274,13 @@ switch(Param::Get("operation")) {
 			}
 		}
 
-		if (array_key_exists("picks", $db["gamedata"]) or count($db["gamedata"]["picks"]) != 0) {
-			if (count($db["gamedata"]["picks"]) == $db["numplayer"] - 1) {
-				Page::SendJSON("voteing");
+		if ((array_key_exists("picks", $db["gamedata"]) or count($db["gamedata"]["picks"]) != 0) and count($db["gamedata"]["picks"]) == $db["numplayer"] - 1) {
+			Page::SendJSON("voteing");
+		} else {
+			if ($db["gamedata"]["master"] == Player::GetId(Param::Get("id"))) {
+				Page::SendJSON("master");
 			} else {
-				if ($db["gamedata"]["master"] == Player::GetId(Param::Get("id"))) {
-					Page::SendJSON("master");
-				} else {
-					Page::SendJSON("picking");
-				}
+				Page::SendJSON("picking");
 			}
 		}
 
@@ -387,8 +385,6 @@ switch(Param::Get("operation")) {
 		$db = $db->fetch();
 		$db = unserialize($db["gamedata"]);
 
-		$isMaster = $db["master"] == Player::GetId(Param::Get("id"));
-
 		$db = DB::Game()->execute('
 			SELECT
 				*
@@ -404,7 +400,6 @@ switch(Param::Get("operation")) {
 
 		Page::SendJSON(array(
 			"q" => $db->fetch(),
-			"master" => $isMaster,
 		));
 
 		break;

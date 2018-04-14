@@ -226,8 +226,6 @@ function vote(value, id) {
 }
 
 function addCards(show = true) {
-	AjaxLoading(true);
-
 	$.postJSON(GetDomain() + "game2/ajax.php", {
 		operation: "addCards",
 		id: getUrlVar("id"),
@@ -235,8 +233,6 @@ function addCards(show = true) {
 		if (show) {
 			ownCards();
 		}
-
-		AjaxLoading(false);
 	}).fail(function(jqXHR, msg) {
 		AjaxLoading(2);
 

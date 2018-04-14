@@ -600,7 +600,9 @@ switch(Param::Get("operation")) {
 
 		break;
 	case "onlineState":
-		Player::StillOnline(Param::Get("id"));
+		if (!Server::IsServer()) {
+			Player::StillOnline(Param::Get("id"));
+		}
 
 		Page::SendJSON(Game::StillOnline(Param::Get("id")));
 

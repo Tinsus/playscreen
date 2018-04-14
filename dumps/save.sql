@@ -31,7 +31,7 @@ CREATE TABLE `errorlog` (
   `err_file` varchar(255) DEFAULT NULL,
   `err_line` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,6 @@ CREATE TABLE `errorlog` (
 
 LOCK TABLES `errorlog` WRITE;
 /*!40000 ALTER TABLE `errorlog` DISABLE KEYS */;
-INSERT INTO `errorlog` VALUES (1,'2018-04-14 20:39:51',2,'WARNING','array_key_exists() expects parameter 2 to be array, boolean given','ajax.php','338');
 /*!40000 ALTER TABLE `errorlog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,4 +108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-14 20:39:52
+-- Dump completed on 2018-04-14 21:28:08

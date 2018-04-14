@@ -204,4 +204,19 @@ class Game {
 
 		return $data;
 	}
+
+	static function StillOnline($id) {
+		$db = self::Get($id);
+
+		$now = new DateTime();
+		$now = $now->getTimestamp();
+
+		foreach ($db["player"] as $k => $v) {
+			if ($now - $v[1] >= 120) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

@@ -274,8 +274,10 @@ switch(Param::Get("operation")) {
 			}
 		}
 
-		if ((array_key_exists("picks", $db["gamedata"]) or count($db["gamedata"]["picks"]) != 0) and count($db["gamedata"]["picks"]) == $db["numplayer"] - 1) {
-			Page::SendJSON("voteing");
+		if ((array_key_exists("picks", $db["gamedata"]) or count($db["gamedata"]["picks"]) != 0)) {
+			if (count($db["gamedata"]["picks"]) == $db["numplayer"] - 1) {
+				Page::SendJSON("voteing");
+			}
 		} else {
 			if ($db["gamedata"]["master"] == Player::GetId(Param::Get("id"))) {
 				Page::SendJSON("master");
@@ -597,6 +599,12 @@ switch(Param::Get("operation")) {
 		));
 
 		Page::SendJSON(count($data["cards"]));
+
+		break;
+	case "onlineState":
+		Player::StillOnline(Param::Get("id"));
+
+		Page::SendJSON(Game::StillOnline(Param::Get("id")));
 
 		break;
 }

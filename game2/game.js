@@ -309,6 +309,21 @@ function ownCards() {
 	});
 }
 
+function onlineState() {
+	$.postJSON(GetDomain() + "game2/ajax.php", {
+		operation: "onlineState",
+		id: getUrlVar("id"),
+	}).done(function(json) {
+		if (json) {
+			setTimeout("onlineState()", 60000);
+		} else {
+			location.href = GetDomain() + "setup.php?id=" + getUrlVar("id");
+		}
+	}).fail(function(jqXHR, msg) {
+		onlineState();
+	});
+}
+
 function trash(id) {
 	$.postJSON(GetDomain() + "game2/ajax.php", {
 		operation: "trash",

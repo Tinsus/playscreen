@@ -61,6 +61,12 @@ switch(Param::Get("operation")) {
 		Page::SendJSON(true);
 
 		break;
+	case "hijackAvatar":
+		Game::ChangeAvatar(Param::Get("id"), Param::Get("name"), Param::Get("avatar"));
+
+		Page::SendJSON(true);
+
+		break;
 	case "checkCountdown":
 		Page::SendJSON(Game::IsReady(Param::Get("id")));
 

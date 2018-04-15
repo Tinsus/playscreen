@@ -119,6 +119,50 @@ class Game {
 		return true;
 	}
 
+	static function ChangeAvatar($game, $name, $avatar) {
+		$db = Game::Get($game);
+
+		$player = $db["player"];
+		$playerdata = $db["playerdata"];
+
+		foreach ($playerdata as $k => $v) {
+			if ($v["tag"] == $avatar) {
+				$playerdata[$k]["name"] = $name;
+
+				foreach ($player as $k2 => $v2) {
+					if ($v2[0] == $k) {
+						unset($player[$k2]);
+					}
+				}
+
+				$now = new DateTime();
+
+				$player[session_id()] = array(
+					$k,
+					$now->getTimestamp(),
+				);
+			}
+		}
+
+		DB::Save()->execute("
+			UPDATE
+				savegames
+			SET
+				player = :player,
+				playerdata = :playerdata
+			WHERE
+				id = :id
+		", array(
+			":id" => $game,
+			":player" => serialize($player),
+			":playerdata" => serialize($playerdata),
+		));
+
+		$_SESSION["game"] = $game;
+
+		return true;
+	}
+
 	static function SetName($game, $name) {
 		$db = Game::Get($game);
 
@@ -144,7 +188,11 @@ class Game {
 	static function IsReady($game) {
 		$db = Game::Get($game);
 
-		return isset($db["settings"]["name"]) and $db["numplayer"] == count($db["playerdata"]);
+		if (!Server::IsServer()) {
+			Player::StillOnline($game);
+		}
+
+		return isset($db["settings"]["name"]) and $db["numplayer"] == count($db["playerdata"]) and self::StillOnline($game);
 	}
 
 	static function Saves($game) {
@@ -211,12 +259,30 @@ class Game {
 		$now = new DateTime();
 		$now = $now->getTimestamp();
 
+		$player = $db["player"];
+
 		foreach ($db["player"] as $k => $v) {
+			if ($now - $v[1] >= 300) {
+				unset($player[$k]);
+
+				DB::Save()->execute("
+					UPDATE
+						savegames
+					SET
+						player = :player
+					WHERE
+						id = :id
+				", array(
+					":id" => $id,
+					":player" => serialize($player),
+				));
+			}
+
 			if ($now - $v[1] >= 120) {
 				return false;
 			}
 		}
 
-		return true;
+		return count($db["player"]) == $db["numplayer"];
 	}
 }

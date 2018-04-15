@@ -54,16 +54,41 @@ function showAvatars() {
 }
 
 var selected = false;
+var rejoined = false;
 
 function watchAvatars() {
 	$.postJSON(GetDomain() + "ajax.php", {
 		operation: "getGameData",
 		id: getUrlVar("id"),
 	}).done(function(json) {
+		if (rejoined) {
+			$("#avatar div button").addClass("w3-disabled");
+			$("#avatar div button").prop("disabled", true);
+			$("#avatar div button").attr("onclick", false);
+		}
+
 		$.each(json["playerdata"], function(k, v) {
-			$("#" + v["tag"]).addClass("w3-disabled");
-			$("#" + v["tag"]).prop("disabled", true);
-			$("#" + v["tag"]).attr("onclick", false);
+			var active = false;
+			var known = false;
+
+			$.each(json["player"], function(k2, v2) {
+				if (v2[0] == k) {
+					known = true;
+					active = Date.now()/1000 - v2[1] <= 120;
+				}
+			});
+
+			if (rejoined) {
+				if (!active && known) {
+					$("#" + v["tag"]).removeClass("w3-disabled");
+					$("#" + v["tag"]).prop("disabled", false);
+					$("#" + v["tag"]).attr("onclick", "hijackAvatar('" + v["tag"] + "')");
+				}
+			} else {
+				$("#" + v["tag"]).addClass("w3-disabled");
+				$("#" + v["tag"]).prop("disabled", true);
+				$("#" + v["tag"]).attr("onclick", false);
+			}
 
 			$("#" + v["tag"]).html(`
 				<span class="w3-large">
@@ -78,11 +103,7 @@ function watchAvatars() {
 			$("#avatar div button").attr("onclick", false);
 		}
 
-		if (json["playerdata"].length != json["numplayer"]) {
-			setTimeout("watchAvatars()", 200);
-		} else {
-			checkCountdown();
-		}
+		checkCountdown();
 	}).fail(function(jqXHR, msg) {
 		watchAvatars();
 	});
@@ -108,13 +129,33 @@ function selectAvatar(tag) {
 	});
 }
 
+function hijackAvatar(tag) {
+	AjaxLoading(true);
+	selected = true;
+
+	$.postJSON(GetDomain() + "ajax.php", {
+		operation: "hijackAvatar",
+		avatar: tag,
+		id: getUrlVar("id"),
+		name: $("#name").val(),
+	}).done(function(json) {
+		$("#player").fadeOut();
+
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		hijackAvatar(tag);
+	});
+}
+
 function checkCountdown() {
 	$.postJSON(GetDomain() + "ajax.php", {
 		operation: "checkCountdown",
 		id: getUrlVar("id"),
 	}).done(function(json) {
 		if (json == false) {
-			setTimeout("checkCountdown()", 200);
+			setTimeout("watchAvatars()", 300);
 		} else {
 			countdown(10);
 		}
@@ -138,4 +179,30 @@ function countdown(timer) {
 	} else {
 		setTimeout("countdown(" + (timer - 0.01) + ")", 10);
 	}
+}
+
+function rejoin() {
+	$.postJSON(GetDomain() + "ajax.php", {
+		operation: "getGameData",
+		id: getUrlVar("id"),
+	}).done(function(json) {
+		var sessionid = document.cookie.match('PHPSESSID=([^;]*)')[1];
+
+		if (json["player"][sessionid] != undefined && json["player"][sessionid][0] != undefined) {
+			$("#name").val(json["playerdata"][json["player"][sessionid][0]]["name"]);
+			$("#player").fadeOut();
+			selected = true;
+
+			showAvatars();
+			watchAvatars();
+		} else if (json["gamedata"]["length"] != 0) {
+			rejoined = true;
+		}
+
+		AjaxLoading(false);
+	}).fail(function(jqXHR, msg) {
+		AjaxLoading(2);
+
+		rejoin();
+	});
 }

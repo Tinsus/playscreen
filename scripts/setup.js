@@ -186,17 +186,26 @@ function rejoin() {
 		operation: "getGameData",
 		id: getUrlVar("id"),
 	}).done(function(json) {
-		var sessionid = document.cookie.match('PHPSESSID=([^;]*)')[1];
 
-		if (json["player"][sessionid] != undefined && json["player"][sessionid][0] != undefined) {
-			$("#name").val(json["playerdata"][json["player"][sessionid][0]]["name"]);
-			$("#player").fadeOut();
-			selected = true;
+		if (IsServer()) {
+			if (json["gamedata"]["length"] != 0) {
+				$("#name").val(json["settings"]["name"]);
 
-			showAvatars();
-			watchAvatars();
-		} else if (json["gamedata"]["length"] != 0) {
-			rejoined = true;
+				setupAvatars();
+			}
+		} else {
+			var sessionid = document.cookie.match('PHPSESSID=([^;]*)')[1];
+
+			if (json["player"][sessionid] != undefined && json["player"][sessionid][0] != undefined) {
+				$("#name").val(json["playerdata"][json["player"][sessionid][0]]["name"]);
+				$("#player").fadeOut();
+				selected = true;
+
+				showAvatars();
+				watchAvatars();
+			} else if (json["gamedata"]["length"] != 0) {
+				rejoined = true;
+			}
 		}
 
 		AjaxLoading(false);

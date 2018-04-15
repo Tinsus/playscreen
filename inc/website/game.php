@@ -262,7 +262,7 @@ class Game {
 		$player = $db["player"];
 
 		foreach ($db["player"] as $k => $v) {
-			if ($now - $v[1] >= 300) {
+			if ($now - $v[1] >= 300 or array_key_exists(0, $v)) {
 				unset($player[$k]);
 
 				DB::Save()->execute("

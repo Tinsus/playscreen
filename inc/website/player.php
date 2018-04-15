@@ -2,17 +2,11 @@
 class Player {
 	static function JoinGame($id) {
 		$db = Game::Get($id);
-
-		$player = array();
-
-		if ($db !== false and $db["player"] != NULL) {
-			$player = $db["player"];
-		}
+		$player = $db["player"];
 
 		$date = new DateTime();
 
 		$player[session_id()] = array(
-			count($player),
 			$date->getTimestamp(),
 		);
 
@@ -32,7 +26,7 @@ class Player {
 	static function GetId($gameid) {
 		$db = Game::Get($gameid);
 
-		return $db["player"][session_id()][0];
+		return array_search(session_id(), array_keys($db["player"]));
 	}
 
 	static function GetName($gameid) {
@@ -46,7 +40,7 @@ class Player {
 		$date = new DateTime();
 
 		$player = $db["player"];
-		$player[session_id()][1] = $date->getTimestamp();
+		$player[session_id()][0] = $date->getTimestamp();
 
 		DB::Save()->execute("
 			UPDATE

@@ -195,9 +195,16 @@ function rejoin() {
 			}
 		} else {
 			var sessionid = document.cookie.match('PHPSESSID=([^;]*)')[1];
+			var keys = new Array();
 
-			if (json["player"][sessionid] != undefined && json["player"][sessionid][0] != undefined) {
-				$("#name").val(json["playerdata"][json["player"][sessionid][0]]["name"]);
+			for (var key in json["player"]) {
+				keys.push(key);
+			}
+
+			var id = keys.indexOf(sessionid);
+
+			if (json["player"][sessionid] != undefined && id != undefined) {
+				$("#name").val(json["playerdata"][id]["name"]);
 				$("#player").fadeOut();
 				selected = true;
 

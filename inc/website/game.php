@@ -138,7 +138,6 @@ class Game {
 				$now = new DateTime();
 
 				$player[session_id()] = array(
-					$k,
 					$now->getTimestamp(),
 				);
 			}
@@ -262,7 +261,7 @@ class Game {
 		$player = $db["player"];
 
 		foreach ($db["player"] as $k => $v) {
-			if ($now - $v[1] >= 300 or array_key_exists(0, $v)) {
+			if ($now - $v[0] >= 300) {
 				unset($player[$k]);
 
 				DB::Save()->execute("
@@ -278,7 +277,7 @@ class Game {
 				));
 			}
 
-			if ($now - $v[1] >= 120) {
+			if ($now - $v[0] >= 120) {
 				return false;
 			}
 		}

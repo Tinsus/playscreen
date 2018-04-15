@@ -451,22 +451,10 @@ switch(Param::Get("operation")) {
 
 		break;
 	case "addCards":
-		$db = DB::Save()->execute('
-			SELECT
-				gamedata, playerdata
-			FROM
-				savegames
-			WHERE
-				id = :id
-			LIMIT
-				1
-		', array(
-			":id" => Param::Get("id"),
-		));
+		$db = Game::Get(Param::Get("id"));
 
-		$db = $db->fetch();
-		$all = unserialize($db["gamedata"]);
-		$data = unserialize($db["playerdata"]);
+		$all = $db["gamedata"];
+		$data = $db["playerdata"];
 
 		if (!array_key_exists("a", $all) or count($all["a"]) == 0) {
 			refreshCards(Param::Get("id"));
